@@ -6,15 +6,15 @@
 <title>Clydeoscope — Immersive recharging wellness experiences in Glasgow</title>
 <meta name="description" content="Clydeoscope is a Glasgow-based neuroaesthetic studio creating immersive EEG-responsive wellness experiences. Sessions for individuals, partnerships and corporate wellbeing programmes. Currently open to commissions.">
 <meta name="keywords" content="immersive wellness Glasgow, recharging experience, neuroaesthetic studio Scotland, EEG wellness, corporate wellbeing Glasgow, immersive design studio">
- 
+
 <meta property="og:title" content="Clydeoscope — Immersive recharging experiences, rooted in the Clyde">
 <meta property="og:description" content="Glasgow's neuroaesthetic studio. Wellness experiences your nervous system can feel. Open to bookings, commissions and partnerships.">
 <meta property="og:type" content="website">
- 
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter+Tight:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
- 
+
 <style>
   :root.light-unused {
     --ink: #0c0e0d;
@@ -52,9 +52,9 @@
     --wave-b: #1e4a60;
     --wave-c: #2a6e55;
   }
- 
+
   .portal-o { font-style: italic; font-weight: 300; }
- 
+
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
   body {
@@ -68,7 +68,7 @@
     transition: background 0.6s ease, color 0.6s ease;
   }
   ::selection { background: var(--ink); color: var(--paper); }
- 
+
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     padding: 1.25rem 2rem;
@@ -100,7 +100,7 @@
   @media (max-width: 700px) {
     #studio-lab .studio-lab-grid { grid-template-columns: 1fr !important; gap: 2.5rem !important; }
   }
- 
+
   .sound-toggle {
     background: transparent;
     border: 0.5px solid var(--line);
@@ -125,30 +125,30 @@
     content: ''; position: absolute; inset: 0; border-radius: 50%;
     border: 1px solid var(--gold); animation: soundRipple 2s ease-out infinite; pointer-events: none;
   }
- 
+
   .wave-strip {
     position: fixed; top: 65px; left: 0; right: 0; height: 80px;
     z-index: 50; pointer-events: none; overflow: hidden;
     border-bottom: 0.5px solid var(--line); transition: border-color 0.6s ease;
   }
   .wave-strip canvas { display: block; width: 100%; height: 100%; }
- 
+
   .hero {
     min-height: 100vh; padding: 11rem 2rem 5rem;
     position: relative; display: flex; align-items: center; overflow: hidden;
   }
   @media (min-width: 900px) { .hero { padding: 12rem 4rem 6rem; } }
- 
+
   .hero-content { position: relative; z-index: 2; max-width: 600px; pointer-events: none; }
   .hero-content > * { pointer-events: auto; }
- 
+
   .hero h1 {
     font-family: 'Fraunces', Georgia, serif; font-weight: 300;
     font-size: clamp(3rem, 8vw, 5.5rem); line-height: 0.95;
     letter-spacing: -0.035em; margin-bottom: 2rem;
   }
   .hero h1 em { font-style: italic; font-weight: 300; color: var(--forest); }
- 
+
   .hero-neural {
     position: absolute; inset: 0; z-index: 0;
     pointer-events: auto; user-select: none; -webkit-user-select: none;
@@ -161,27 +161,27 @@
                 linear-gradient(to bottom, transparent 55%, var(--paper) 100%);
     pointer-events: none;
   }
- 
+
   .section-num { font-family: 'Fraunces', Georgia, serif; font-size: 0.85rem; color: var(--gold); letter-spacing: 0.05em; margin-bottom: 1rem; font-style: italic; }
   .hero-sub { font-size: 1rem; line-height: 1.55; max-width: 44ch; color: var(--ink); margin-bottom: 2.5rem; }
   .hero-sub strong { color: var(--ink); font-weight: 400; }
- 
+
   .hero-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; padding-top: 1.75rem; border-top: 0.5px solid var(--line); max-width: 460px; }
   .hero-meta dt { color: var(--ink); text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.62rem; margin-bottom: 0.4rem; }
   .hero-meta dd { font-family: 'Fraunces', Georgia, serif; font-size: 0.92rem; font-weight: 400; }
- 
+
   .section { padding: 6rem 2rem; border-top: 0.5px solid var(--line); transition: border-color 0.6s ease; }
   @media (min-width: 900px) { .section { padding: 8rem 4rem; } }
   .section h2 { font-family: 'Fraunces', Georgia, serif; font-weight: 300; font-size: clamp(1.9rem, 4vw, 3rem); line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 3rem; max-width: 24ch; }
   .section h2 em { font-style: italic; color: var(--accent); }
- 
+
   .concept-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; }
   @media (min-width: 700px) { .concept-grid { grid-template-columns: 1fr 1fr; } }
   @media (min-width: 1100px) { .concept-grid { grid-template-columns: repeat(3, 1fr); gap: 3rem; } }
   .concept-item { padding: 2rem 0; border-top: 0.5px solid var(--line); transition: border-color 0.6s ease; }
   .concept-item h3 { font-family: 'Fraunces', Georgia, serif; font-size: 1.3rem; font-weight: 400; margin-bottom: 1rem; letter-spacing: -0.01em; }
   .concept-item p { font-size: 0.95rem; line-height: 1.6; color: var(--ink); }
- 
+
   .founder-section { padding: 6rem 2rem; background: var(--paper-2); color: var(--ink); border-top: 0.5px solid var(--line); transition: background 0.6s ease, color 0.6s ease, border-color 0.6s ease; }
   @media (min-width: 900px) { .founder-section { padding: 8rem 4rem; } }
   .founder-section h2 { color: var(--ink); }
@@ -190,7 +190,7 @@
   .founder-name { font-family: 'Fraunces', Georgia, serif; font-size: 1.8rem; font-weight: 400; letter-spacing: -0.02em; margin-bottom: 0.25rem; color: var(--ink); }
   .founder-role { font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 2rem; }
   .founder-bio p { font-size: 1rem; line-height: 1.7; color: var(--ink); margin-bottom: 1.25rem; }
- 
+
   .work-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
   @media (min-width: 700px) { .work-grid { grid-template-columns: 1fr 1fr; } }
   @media (min-width: 1100px) { .work-grid { grid-template-columns: repeat(4, 1fr); } }
@@ -198,7 +198,7 @@
   .work-card:hover { transform: translateY(-4px); border-top-color: var(--gold); }
   .work-card-visual { background: var(--paper); border: 0.5px solid var(--line); display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; min-height: 160px; transition: background 0.6s ease, border-color 0.6s ease; }
   .card-icon { width: 120px; height: 120px; overflow: visible; }
- 
+
   @keyframes rotateSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
   @keyframes rotateReverse { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
   @keyframes float1 { 0%,100% { transform: translateY(0px); } 50% { transform: translateY(-6px); } }
@@ -206,7 +206,7 @@
   @keyframes float3 { 0%,100% { transform: translateY(0px) translateX(0px); } 50% { transform: translateY(-5px) translateX(-3px); } }
   @keyframes iconPulse { 0%,100% { opacity: 0.9; } 50% { opacity: 0.6; } }
   @keyframes iconPulseRing { 0%,100% { opacity: 0.4; } 50% { opacity: 0.1; } }
- 
+
   .card-icon .icon-rotate-slow { transform-origin: 60px 60px; animation: rotateSlow 18s linear infinite; }
   .card-icon .icon-rotate-reverse { transform-origin: 60px 60px; animation: rotateReverse 12s linear infinite; }
   .card-icon .icon-float-1 { animation: float1 4s ease-in-out infinite; }
@@ -214,16 +214,16 @@
   .card-icon .icon-float-3 { animation: float3 4.8s ease-in-out infinite; }
   .card-icon .icon-pulse { animation: iconPulse 3s ease-in-out infinite; }
   .card-icon .icon-pulse-ring { animation: iconPulseRing 3s ease-in-out infinite; }
- 
+
   .work-card-meta { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ink); margin-bottom: 0.5rem; }
   .work-card h3 { font-family: 'Fraunces', Georgia, serif; font-size: 1.4rem; font-weight: 400; line-height: 1.1; margin-bottom: 0.75rem; letter-spacing: -0.01em; }
   .work-card p { font-size: 0.85rem; line-height: 1.5; color: var(--ink); }
   .status-pill { display: inline-block; font-size: 0.6rem; letter-spacing: 0.15em; padding: 0.25rem 0.6rem; border-radius: 999px; text-transform: uppercase; background: var(--ink); color: var(--paper); margin-top: 1rem; }
   .status-pill.soon { background: transparent; color: var(--ink); border: 0.5px solid var(--ink); }
- 
+
   .collective { padding: 6rem 2rem; border-top: 0.5px solid var(--line); }
   @media (min-width: 900px) { .collective { padding: 8rem 4rem; } }
- 
+
   footer { padding: 4rem 2rem 3rem; border-top: 0.5px solid var(--line); display: grid; grid-template-columns: 1fr; gap: 3rem; transition: border-color 0.6s ease; }
   @media (min-width: 700px) { footer { grid-template-columns: 2fr 1fr 1fr; gap: 4rem; padding: 5rem 4rem 3rem; } }
   .footer-mark { font-family: 'Fraunces', Georgia, serif; font-size: 1.5rem; font-weight: 300; letter-spacing: -0.02em; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.6rem; }
@@ -232,29 +232,27 @@
   .footer-col a, .footer-col p { display: block; font-size: 0.9rem; color: var(--ink); text-decoration: none; margin-bottom: 0.5rem; line-height: 1.5; }
   .footer-col a:hover { color: var(--accent); }
   .footer-bottom { grid-column: 1 / -1; padding-top: 3rem; margin-top: 1rem; border-top: 0.5px solid var(--line); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink); transition: border-color 0.6s ease; }
- 
+
   @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
   .hero h1, .hero-sub, .hero-meta { animation: fadeUp 0.9s ease forwards; opacity: 0; }
   .hero h1 { animation-delay: 0.15s; }
   .hero-sub { animation-delay: 0.35s; }
   .hero-meta { animation-delay: 0.65s; }
- 
+
+  @media (max-width: 900px) { .mobile-cta { display: block !important; } }
+
   @keyframes ctaFloat {
-    0%,100% { transform: translateY(0px); }
-    50%     { transform: translateY(6px); }
+    0%,100% { transform: translateX(-50%) translateY(0px); }
+    50%      { transform: translateX(-50%) translateY(6px); }
   }
-  @keyframes ctaShimmer {
-    0%   { background-position: 300% center; }
-    100% { background-position: 0% center; }
-  }
- 
+
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
   }
 </style>
 </head>
 <body>
- 
+
 <nav>
   <a href="#" class="nav-mark" aria-label="Clydeoscope home"><svg class="nav-mark-svg" viewBox="0 0 24 24" style="width:20px;height:20px;flex-shrink:0;"><circle cx="12" cy="12" r="10" style="fill:none;stroke:var(--ink);stroke-width:1;opacity:0.4;"/><circle cx="12" cy="12" r="6.5" style="fill:none;stroke:var(--gold);stroke-width:1;opacity:0.7;"/><circle cx="12" cy="12" r="2.5" style="fill:var(--gold);stroke:none;opacity:0.9;"/></svg><span style="display:inline-block;letter-spacing:-0.04em;">Clyde<span style="color:var(--gold);">o</span>scope</span></a>
   <div class="nav-right">
@@ -271,11 +269,11 @@
     </button>
   </div>
 </nav>
- 
+
 <div class="wave-strip" aria-hidden="true">
   <canvas id="waveCanvas"></canvas>
 </div>
- 
+
 <section class="hero">
   <div class="hero-content">
     <h1>A new way <em>to feel.</em></h1>
@@ -290,14 +288,13 @@
   <div class="hero-neural" aria-hidden="true">
     <canvas id="neuralCanvas"></canvas>
   </div>
-  <div style="position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);z-index:3;pointer-events:auto;">
-    <a href="#studio-lab" style="display:inline-flex;align-items:center;gap:0.6rem;text-decoration:none;padding:0.75rem 1.75rem;border-radius:999px;border:1px solid var(--gold);background:rgba(10,12,11,0.6);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);">
-      <span style="font-family:'Fraunces',Georgia,serif;font-size:0.75rem;letter-spacing:0.2em;text-transform:uppercase;background:linear-gradient(90deg,#8a6e2f,#e8c97a,#c9b472,#8a6e2f);background-size:300% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:ctaShimmer 3s linear infinite;">Find out more</span>
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#c9b472" stroke-width="2" stroke-linecap="round" style="flex-shrink:0;"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+  <div style="position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);z-index:3;pointer-events:auto;display:none;" class="mobile-cta">
+    <a href="#studio-lab" style="display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;border:1.5px solid rgba(240,237,229,0.6);text-decoration:none;animation:ctaFloat 2.5s ease-in-out infinite;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#eee9df" stroke-width="1.5" stroke-linecap="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
     </a>
   </div>
 </section>
- 
+
 <section class="section" id="studio-lab" style="border-top: 0.5px solid var(--line);">
   <div class="section-num">i.</div>
   <h2>Two practices. <em>One studio.</em></h2>
@@ -314,12 +311,12 @@
     </div>
   </div>
 </section>
- 
+
 <section class="section" id="work">
   <div class="section-num">ii.</div>
   <h2>What we're <em>making.</em></h2>
   <div class="work-grid">
- 
+
     <article class="work-card">
       <div class="work-card-visual">
         <svg class="card-icon" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
@@ -343,7 +340,7 @@
         <span class="status-pill">In development</span>
       </div>
     </article>
- 
+
     <article class="work-card">
       <div class="work-card-visual">
         <svg class="card-icon" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
@@ -367,7 +364,7 @@
         <span class="status-pill soon">In development</span>
       </div>
     </article>
- 
+
     <article class="work-card">
       <div class="work-card-visual">
         <svg class="card-icon" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
@@ -390,7 +387,7 @@
         <span class="status-pill soon">In ideation</span>
       </div>
     </article>
- 
+
     <article class="work-card">
       <div class="work-card-visual">
         <svg class="card-icon" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
@@ -426,14 +423,14 @@
         <span class="status-pill soon">In development</span>
       </div>
     </article>
- 
+
   </div>
 </section>
- 
+
 <section class="collective" id="collective">
   <div class="section-num">iii.</div>
   <h2>A design studio but <em>not as you know it</em></h2>
- 
+
   <p style="font-style:italic;">"I'm a designer with a decade of experience across UX/UI, web technologies and user psychology.</p>
   <br>
   <p style="font-style:italic;">Clydeoscope grew from a slow burning realisation. The modern world wasn't suddenly overwhelming, it has crept up. The apps, the noise, the environments we spend our lives in. We as human beings were not designed for this and our nervous systems are telling us so.</p>
@@ -444,7 +441,7 @@
   <br>
   <p style="font-size:0.8rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-top:0.5rem;">— John Campbell, Founder</p>
 </section>
- 
+
 <footer>
   <div>
     <div class="footer-mark">
@@ -473,14 +470,14 @@
     <span>Glasgow</span>
   </div>
 </footer>
- 
+
 <script>
   const root = document.documentElement;
- 
+
   const canvas = document.getElementById('waveCanvas');
   const ctx = canvas.getContext('2d');
   let w, h, dpr;
- 
+
   function resize() {
     dpr = window.devicePixelRatio || 1;
     const rect = canvas.parentElement.getBoundingClientRect();
@@ -491,7 +488,7 @@
   }
   window.addEventListener('resize', resize);
   resize();
- 
+
   let t = 0;
   function draw() {
     ctx.clearRect(0, 0, w, h);
@@ -521,7 +518,7 @@
     t += 1;
     requestAnimationFrame(draw);
   }
- 
+
   const nc2 = document.getElementById('neuralCanvas');
   if (nc2) {
     const nctx2 = nc2.getContext('2d');
@@ -553,7 +550,7 @@
     }
     window.addEventListener('resize',resizeNeural);
     resizeNeural();
- 
+
     let touchX=-1,touchY=-1,touchActive=false;
     function handleStart(e){e.preventDefault();const rect=nc2.getBoundingClientRect(),src=e.touches?e.touches[0]:e;touchX=src.clientX-rect.left;touchY=src.clientY-rect.top;touchActive=true;activateNear(touchX,touchY,1.0);}
     function handleMove(e){e.preventDefault();if(!touchActive)return;const rect=nc2.getBoundingClientRect(),src=e.touches?e.touches[0]:e;touchX=src.clientX-rect.left;touchY=src.clientY-rect.top;activateNear(touchX,touchY,0.6);}
@@ -565,7 +562,7 @@
     nc2.addEventListener('mousemove',e=>{if(!touchActive)return;handleMove(e);});
     nc2.addEventListener('mouseup',handleEnd);
     nc2.addEventListener('mouseleave',handleEnd);
- 
+
     function activateNear(x,y,strength){
       const radius=Math.min(nw2,nh2)*0.22;
       nodes2.forEach(nd=>{const dx=nd.x-x,dy=nd.y-y,d=Math.sqrt(dx*dx+dy*dy);if(d<radius)nd.charge=Math.min(1,nd.charge+(1-d/radius)*strength);});
@@ -609,10 +606,10 @@
     }
     requestAnimationFrame(drawNeural);
   }
- 
+
   const CELTIC_NOTES=[146.83,164.81,196.00,220.00,261.63,293.66,329.63,392.00,440.00,523.25,587.33,659.25];
   let audioCtx=null,masterGain=null,droneNodes=[],soundEnabled=false;
- 
+
   function initAudio(){
     if(audioCtx)return;
     audioCtx=new(window.AudioContext||window.webkitAudioContext)();
@@ -635,13 +632,13 @@
     });
     window._clydeConvolver=convolver;
   }
- 
+
   function stopAudio(){
     if(!audioCtx)return;
     masterGain.gain.linearRampToValueAtTime(0,audioCtx.currentTime+1.5);
     setTimeout(()=>{droneNodes.forEach(n=>{try{n.stop();}catch(e){}});droneNodes=[];audioCtx.close();audioCtx=null;masterGain=null;},1600);
   }
- 
+
   function playCelticTone(x,y){
     if(!audioCtx||!soundEnabled)return;
     const noteIdx=Math.floor((x/window.innerWidth)*CELTIC_NOTES.length);
@@ -656,7 +653,7 @@
     if(window._clydeConvolver)env.connect(window._clydeConvolver);
     osc.start(now);osc.stop(now+3);osc2.start(now);osc2.stop(now+3);
   }
- 
+
   let lastToneTime=0;
   function maybePlayTone(e){
     if(!soundEnabled)return;
@@ -664,7 +661,7 @@
     lastToneTime=now2;const src=e.touches?e.touches[0]:e;
     playCelticTone(src.clientX,src.clientY);
   }
- 
+
   const nc2ref=document.getElementById('neuralCanvas');
   if(nc2ref){
     nc2ref.addEventListener('touchstart',maybePlayTone,{passive:true});
@@ -672,7 +669,7 @@
     nc2ref.addEventListener('mousedown',maybePlayTone);
     nc2ref.addEventListener('mousemove',e=>{if(e.buttons)maybePlayTone(e);});
   }
- 
+
   const soundBtn=document.getElementById('soundToggle');
   if(soundBtn){
     soundBtn.addEventListener('click',()=>{
@@ -682,7 +679,7 @@
       else stopAudio();
     });
   }
- 
+
   draw();
 </script>
 </body>
