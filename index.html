@@ -13,248 +13,15 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter+Tight:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter+Tight:wght@300;400;500&display=swap" rel="stylesheet">
 
-<style>
-  :root.light-unused {
-    --ink: #0c0e0d;
-    --paper: #f4f2ec;
-    --paper-2: #eae7de;
-    --muted: #6b6862;
-    --line: rgba(10, 10, 10, 0.1);
-    --accent: #2d6a8a;
-    --forest: #1e4a30;
-    --gold: #b8a060;
-    --silver: #9aacaa;
-    --gold-soft: rgba(184,160,96,0.15);
-    --cta-green: #2d6a4f;
-    --cta-green-hover: #1b4332;
-    --cta-green-active: #3a8a65;
-    --wave-a: #1e4a30;
-    --wave-b: #2d6a8a;
-    --wave-c: #4a9070;
-  }
-  :root {
-    --ink: #eee9df;
-    --paper: #0a0c0b;
-    --paper-2: #13160f;
-    --muted: #7a7973;
-    --line: rgba(240, 237, 229, 0.1);
-    --accent: #5aabb5;
-    --forest: #5aab7a;
-    --gold: #c9b472;
-    --silver: #aabfbd;
-    --gold-soft: rgba(201,180,114,0.12);
-    --cta-green: #40916c;
-    --cta-green-hover: #52b788;
-    --cta-green-active: #74c69d;
-    --wave-a: #1a2e20;
-    --wave-b: #1e4a60;
-    --wave-c: #2a6e55;
-  }
-
-  .portal-o { font-style: italic; font-weight: 300; }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: 'Inter Tight', -apple-system, sans-serif;
-    background: var(--paper);
-    color: var(--ink);
-    line-height: 1.5;
-    font-weight: 300;
-    -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
-    transition: background 0.6s ease, color 0.6s ease;
-  }
-  ::selection { background: var(--ink); color: var(--paper); }
-
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    padding: 1.25rem 2rem;
-    display: flex; justify-content: space-between; align-items: center;
-    background: color-mix(in srgb, var(--paper) 85%, transparent);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-bottom: 0.5px solid var(--line);
-    transition: background 0.6s ease, border-color 0.6s ease;
-  }
-  .nav-mark {
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
-    font-family: 'Fraunces', Georgia, serif;
-    font-size: 1.05rem;
-    font-weight: 300;
-    letter-spacing: 0;
-    text-decoration: none;
-    color: var(--ink);
-    transition: color 0.3s;
-  }
-  .nav-mark-svg { width: 22px; height: 22px; }
-  .nav-mark-svg circle, .nav-mark-svg path { stroke: var(--ink); fill: none; stroke-width: 1.2; transition: stroke 0.6s ease; }
-  .nav-mark-svg .inner { opacity: 0.5; }
-  .nav-right { display: flex; align-items: center; gap: 1.5rem; }
-  .nav-link { font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink); text-decoration: none; transition: color 0.3s; }
-  .nav-link:hover { color: var(--ink); }
-  @media (max-width: 700px) {
-    .studio-lab-grid { grid-template-columns: 1fr !important; gap: 2.5rem !important; }
-  }
-
-  .sound-toggle {
-    background: transparent;
-    border: 0.5px solid var(--line);
-    color: var(--ink);
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.3s ease;
-    flex-shrink: 0;
-    position: relative;
-  }
-  .sound-toggle:hover { border-color: var(--gold); color: var(--gold); }
-  .sound-toggle.active { border-color: var(--gold); color: var(--gold); }
-  .sound-toggle svg { width: 14px; height: 14px; }
-  .sound-toggle .icon-sound-on  { display: none; }
-  .sound-toggle .icon-sound-off { display: block; }
-  .sound-toggle.active .icon-sound-on  { display: block; }
-  .sound-toggle.active .icon-sound-off { display: none; }
-  @keyframes soundRipple { 0% { transform: scale(1); opacity: 0.5; } 100% { transform: scale(2.2); opacity: 0; } }
-  .sound-toggle.active::after {
-    content: ''; position: absolute; inset: 0; border-radius: 50%;
-    border: 1px solid var(--gold); animation: soundRipple 2s ease-out infinite; pointer-events: none;
-  }
-
-  .wave-strip {
-    position: fixed; top: 65px; left: 0; right: 0; height: 80px;
-    z-index: 50; pointer-events: none; overflow: hidden;
-    border-bottom: 0.5px solid var(--line); transition: border-color 0.6s ease;
-  }
-  .wave-strip canvas { display: block; width: 100%; height: 100%; }
-
-  .hero {
-    min-height: 100vh; padding: 11rem 2rem 5rem;
-    position: relative; display: flex; align-items: center; overflow: hidden;
-  }
-  @media (min-width: 900px) { .hero { padding: 12rem 4rem 6rem; } }
-
-  .hero-content { position: relative; z-index: 2; max-width: 600px; pointer-events: none; }
-  .hero-content > * { pointer-events: auto; }
-
-  .hero h1 {
-    font-family: 'Fraunces', Georgia, serif; font-weight: 300;
-    font-size: clamp(3rem, 8vw, 5.5rem); line-height: 0.95;
-    letter-spacing: -0.035em; margin-bottom: 2rem;
-  }
-  .hero h1 em { font-style: italic; font-weight: 300; color: var(--forest); }
-
-  .hero-neural {
-    position: absolute; inset: 0; z-index: 0;
-    pointer-events: auto; user-select: none; -webkit-user-select: none;
-    -webkit-touch-callout: none; touch-action: none;
-  }
-  .hero-neural canvas { display: block; width: 100%; height: 100%; user-select: none; -webkit-user-select: none; }
-  .hero-neural::after {
-    content: ''; position: absolute; inset: 0;
-    background: radial-gradient(ellipse 65% 80% at 15% 50%, color-mix(in srgb, var(--paper) 72%, transparent) 0%, transparent 60%),
-                linear-gradient(to bottom, transparent 55%, var(--paper) 100%);
-    pointer-events: none;
-  }
-
-  .section-num { font-family: 'Fraunces', Georgia, serif; font-size: 0.85rem; color: var(--gold); letter-spacing: 0.05em; margin-bottom: 1rem; font-style: italic; }
-  .hero-sub { font-size: 1rem; line-height: 1.55; max-width: 44ch; color: var(--ink); margin-bottom: 2.5rem; }
-  .hero-sub strong { color: var(--ink); font-weight: 400; }
-
-  .hero-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; padding-top: 1.75rem; border-top: 0.5px solid var(--line); max-width: 460px; }
-  .hero-meta dt { color: var(--ink); text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.62rem; margin-bottom: 0.4rem; }
-  .hero-meta dd { font-family: 'Fraunces', Georgia, serif; font-size: 0.92rem; font-weight: 400; }
-
-  .section { padding: 6rem 2rem; border-top: 0.5px solid var(--line); transition: border-color 0.6s ease; }
-  @media (min-width: 900px) { .section { padding: 8rem 4rem; } }
-  .section h2 { font-family: 'Fraunces', Georgia, serif; font-weight: 300; font-size: clamp(1.9rem, 4vw, 3rem); line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 3rem; max-width: 24ch; }
-  .section h2 em { font-style: italic; color: var(--accent); }
-
-  .concept-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; }
-  @media (min-width: 700px) { .concept-grid { grid-template-columns: 1fr 1fr; } }
-  @media (min-width: 1100px) { .concept-grid { grid-template-columns: repeat(3, 1fr); gap: 3rem; } }
-  .concept-item { padding: 2rem 0; border-top: 0.5px solid var(--line); transition: border-color 0.6s ease; }
-  .concept-item h3 { font-family: 'Fraunces', Georgia, serif; font-size: 1.3rem; font-weight: 400; margin-bottom: 1rem; letter-spacing: -0.01em; }
-  .concept-item p { font-size: 0.95rem; line-height: 1.6; color: var(--ink); }
-
-  .founder-section { padding: 6rem 2rem; background: var(--paper-2); color: var(--ink); border-top: 0.5px solid var(--line); transition: background 0.6s ease, color 0.6s ease, border-color 0.6s ease; }
-  @media (min-width: 900px) { .founder-section { padding: 8rem 4rem; } }
-  .founder-section h2 { color: var(--ink); }
-  .founder-section h2 em { color: var(--gold); }
-  .founder-section .section-num { color: var(--gold); opacity: 0.85; }
-  .founder-name { font-family: 'Fraunces', Georgia, serif; font-size: 1.8rem; font-weight: 400; letter-spacing: -0.02em; margin-bottom: 0.25rem; color: var(--ink); }
-  .founder-role { font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 2rem; }
-  .founder-bio p { font-size: 1rem; line-height: 1.7; color: var(--ink); margin-bottom: 1.25rem; }
-
-  .work-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
-  @media (min-width: 700px) { .work-grid { grid-template-columns: 1fr 1fr; } }
-  @media (min-width: 1100px) { .work-grid { grid-template-columns: repeat(4, 1fr); } }
-  .work-card { background: var(--paper-2); padding: 1.5rem; border-radius: 2px; border-top: 1.5px solid transparent; display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.4s ease, background 0.6s ease, border-color 0.4s ease; cursor: pointer; }
-  .work-card:hover { transform: translateY(-4px); border-top-color: var(--gold); }
-  .work-card-visual { background: var(--paper); border: 0.5px solid var(--line); display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; min-height: 160px; transition: background 0.6s ease, border-color 0.6s ease; }
-  .card-icon { width: 120px; height: 120px; overflow: visible; }
-
-  @keyframes rotateSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-  @keyframes rotateReverse { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
-  @keyframes float1 { 0%,100% { transform: translateY(0px); } 50% { transform: translateY(-6px); } }
-  @keyframes float2 { 0%,100% { transform: translateY(0px) translateX(0px); } 50% { transform: translateY(-4px) translateX(3px); } }
-  @keyframes float3 { 0%,100% { transform: translateY(0px) translateX(0px); } 50% { transform: translateY(-5px) translateX(-3px); } }
-  @keyframes iconPulse { 0%,100% { opacity: 0.9; } 50% { opacity: 0.6; } }
-  @keyframes iconPulseRing { 0%,100% { opacity: 0.4; } 50% { opacity: 0.1; } }
-
-  .card-icon .icon-rotate-slow { transform-origin: 60px 60px; animation: rotateSlow 18s linear infinite; }
-  .card-icon .icon-rotate-reverse { transform-origin: 60px 60px; animation: rotateReverse 12s linear infinite; }
-  .card-icon .icon-float-1 { animation: float1 4s ease-in-out infinite; }
-  .card-icon .icon-float-2 { animation: float2 5.5s ease-in-out infinite; }
-  .card-icon .icon-float-3 { animation: float3 4.8s ease-in-out infinite; }
-  .card-icon .icon-pulse { animation: iconPulse 3s ease-in-out infinite; }
-  .card-icon .icon-pulse-ring { animation: iconPulseRing 3s ease-in-out infinite; }
-
-  .work-card-meta { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ink); margin-bottom: 0.5rem; }
-  .work-card h3 { font-family: 'Fraunces', Georgia, serif; font-size: 1.4rem; font-weight: 400; line-height: 1.1; margin-bottom: 0.75rem; letter-spacing: -0.01em; }
-  .work-card p { font-size: 0.85rem; line-height: 1.5; color: var(--ink); }
-  .status-pill { display: inline-block; font-size: 0.6rem; letter-spacing: 0.15em; padding: 0.25rem 0.6rem; border-radius: 999px; text-transform: uppercase; background: var(--ink); color: var(--paper); margin-top: 1rem; }
-  .status-pill.soon { background: transparent; color: var(--ink); border: 0.5px solid var(--ink); }
-
-  .collective { padding: 6rem 2rem; border-top: 0.5px solid var(--line); }
-  @media (min-width: 900px) { .collective { padding: 8rem 4rem; } }
-
-  footer { padding: 4rem 2rem 3rem; border-top: 0.5px solid var(--line); display: grid; grid-template-columns: 1fr; gap: 3rem; transition: border-color 0.6s ease; }
-  @media (min-width: 700px) { footer { grid-template-columns: 2fr 1fr 1fr; gap: 4rem; padding: 5rem 4rem 3rem; } }
-  .footer-mark { font-family: 'Fraunces', Georgia, serif; font-size: 1.5rem; font-weight: 300; letter-spacing: -0.02em; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.6rem; }
-  .footer-tagline { font-size: 0.85rem; color: var(--ink); max-width: 32ch; line-height: 1.5; }
-  .footer-col h4 { font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink); margin-bottom: 1rem; font-weight: 400; }
-  .footer-col a, .footer-col p { display: block; font-size: 0.9rem; color: var(--ink); text-decoration: none; margin-bottom: 0.5rem; line-height: 1.5; }
-  .footer-col a:hover { color: var(--accent); }
-  .footer-bottom { grid-column: 1 / -1; padding-top: 3rem; margin-top: 1rem; border-top: 0.5px solid var(--line); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink); transition: border-color 0.6s ease; }
-
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-  .hero h1, .hero-sub, .hero-meta { animation: fadeUp 0.9s ease forwards; opacity: 0; }
-  .hero h1 { animation-delay: 0.15s; }
-  .hero-sub { animation-delay: 0.35s; }
-  .hero-meta { animation-delay: 0.65s; }
-
-  @media (max-width: 900px) { .mobile-cta { display: block !important; } }
-
-  @keyframes ctaFloat {
-    0%,100% { transform: translateX(-50%) translateY(0px); }
-    50%      { transform: translateX(-50%) translateY(6px); }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
-  }
-</style>
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 
 <nav>
-  <a href="#" class="nav-mark" aria-label="Clydeoscope home"><svg class="nav-mark-svg" viewBox="0 0 24 24" style="width:20px;height:20px;flex-shrink:0;"><circle cx="12" cy="12" r="10" style="fill:none;stroke:var(--ink);stroke-width:1;opacity:0.4;"/><circle cx="12" cy="12" r="6.5" style="fill:none;stroke:var(--gold);stroke-width:1;opacity:0.7;"/><circle cx="12" cy="12" r="2.5" style="fill:var(--gold);stroke:none;opacity:0.9;"/></svg><span style="display:inline-block;letter-spacing:-0.04em;">Clyde<span style="color:var(--gold);">o</span>scope</span></a>
+  <a href="#" class="nav-mark" aria-label="Clydeoscope home"><svg class="nav-mark-svg" viewBox="0 0 24 24" style="width:20px;height:20px;flex-shrink:0;"><circle cx="12" cy="12" r="10" style="fill:none;stroke:var(--colour-text);stroke-width:1;opacity:0.4;"/><circle cx="12" cy="12" r="6.5" style="fill:none;stroke:var(--colour-accent-gold);stroke-width:1;opacity:0.7;"/><circle cx="12" cy="12" r="2.5" style="fill:var(--colour-accent-gold);stroke:none;opacity:0.9;"/></svg><span style="display:inline-block;letter-spacing:-0.04em;">Clyde<span style="color:var(--colour-accent-gold);">o</span>scope</span></a>
   <div class="nav-right">
     <button class="sound-toggle" id="soundToggle" aria-label="Toggle sound" title="Toggle ambient sound">
       <svg class="icon-sound-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
@@ -278,7 +45,7 @@
   <div class="hero-content">
     <h1>A new way <em>to feel.</em></h1>
     <p class="hero-sub">
-      <strong style="color:var(--ink);">Clydeoscope</strong> is a <a href="#studio-lab" style="color:var(--ink);text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:4px;text-decoration-thickness:1px;">neuroaesthetic design studio</a> and immersive tech lab in Glasgow.
+      <strong style="color:var(--colour-text);">Clydeoscope</strong> is a <a href="#studio-lab" style="color:var(--colour-text);text-decoration:underline;text-decoration-color:var(--colour-accent-gold);text-underline-offset:4px;text-decoration-thickness:1px;">neuroaesthetic design studio</a> and immersive tech lab in Glasgow.
     </p>
     <dl class="hero-meta">
       <div><dt>Status</dt><dd>Launching July 2026</dd></div>
@@ -290,24 +57,24 @@
   </div>
   <div style="position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);z-index:3;pointer-events:auto;display:none;" class="mobile-cta">
     <a href="#studio-lab" style="display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;border:1.5px solid rgba(240,237,229,0.6);text-decoration:none;animation:ctaFloat 2.5s ease-in-out infinite;">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#eee9df" stroke-width="1.5" stroke-linecap="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--colour-text)" stroke-width="1.5" stroke-linecap="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
     </a>
   </div>
 </section>
 
-<section class="section" id="studio-lab" style="border-top: 0.5px solid var(--line);">
+<section class="section" id="studio-lab" style="border-top: 0.5px solid var(--colour-border);">
   <div class="section-num">i.</div>
   <h2>Two practices. <em>One studio.</em></h2>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;margin-top:1rem;">
+  <div class="studio-lab-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;margin-top:1rem;">
     <div>
-      <div style="font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1.25rem;display:flex;align-items:center;gap:0.75rem;"><span style="width:1.5rem;height:1px;background:var(--gold);display:inline-block;opacity:0.6;"></span>Studio</div>
-      <p style="font-size:1rem;line-height:1.7;color:var(--ink);margin-bottom:1rem;">We design and build. Immersive experiences, wellness environments, creative technology and digital products all rooted in how the nervous system actually responds to its environment.</p>
-      <p style="font-size:1rem;line-height:1.7;color:var(--ink);margin-bottom:1rem;">Neuroaesthetics is the science of how the brain and body respond to art, culture, design and environment. We apply that science to everything we make so the work doesn't just look right, it feels right.</p>
+      <div style="font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--colour-accent-gold);margin-bottom:1.25rem;display:flex;align-items:center;gap:0.75rem;"><span style="width:1.5rem;height:1px;background:var(--colour-accent-gold);display:inline-block;opacity:0.6;"></span>Studio</div>
+      <p style="font-size:1rem;line-height:1.7;color:var(--colour-text);margin-bottom:1rem;">We design and build. Immersive experiences, wellness environments, creative technology and digital products all rooted in how the nervous system actually responds to its environment.</p>
+      <p style="font-size:1rem;line-height:1.7;color:var(--colour-text);margin-bottom:1rem;">Neuroaesthetics is the science of how the brain and body respond to art, culture, design and environment. We apply that science to everything we make so the work doesn't just look right, it feels right.</p>
     </div>
     <div>
-      <div style="font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1.25rem;display:flex;align-items:center;gap:0.75rem;"><span style="width:1.5rem;height:1px;background:var(--gold);display:inline-block;opacity:0.6;"></span>Lab</div>
-      <p style="font-size:1rem;line-height:1.7;color:var(--ink);margin-bottom:1rem;">Every experience we build is also a research instrument. Using EEG, biofeedback and physiological data, we measure what the work is actually doing to the body and use that to make it better.</p>
-      <p style="font-size:1rem;line-height:1.7;color:var(--ink);margin-bottom:1rem;">We take the neuroscience lab into the real world. Brain-body responses captured in real environments give us an accurate picture of how people feel in the moment not what they say they feel.</p>
+      <div style="font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--colour-accent-gold);margin-bottom:1.25rem;display:flex;align-items:center;gap:0.75rem;"><span style="width:1.5rem;height:1px;background:var(--colour-accent-gold);display:inline-block;opacity:0.6;"></span>Lab</div>
+      <p style="font-size:1rem;line-height:1.7;color:var(--colour-text);margin-bottom:1rem;">Every experience we build is also a research instrument. Using EEG, biofeedback and physiological data, we measure what the work is actually doing to the body and use that to make it better.</p>
+      <p style="font-size:1rem;line-height:1.7;color:var(--colour-text);margin-bottom:1rem;">We take the neuroscience lab into the real world. Brain-body responses captured in real environments give us an accurate picture of how people feel in the moment not what they say they feel.</p>
     </div>
   </div>
 </section>
@@ -321,16 +88,16 @@
       <div class="work-card-visual">
         <svg class="card-icon" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
           <g class="icon-rotate-slow">
-            <circle cx="60" cy="60" r="48" fill="none" stroke="var(--silver)" stroke-width="0.6" opacity="0.3"/>
-            <circle cx="60" cy="60" r="36" fill="none" stroke="var(--gold)" stroke-width="0.8" opacity="0.5" stroke-dasharray="6 4"/>
-            <circle cx="60" cy="60" r="22" fill="none" stroke="var(--forest)" stroke-width="1" opacity="0.7"/>
+            <circle cx="60" cy="60" r="48" fill="none" stroke="var(--colour-accent-silver)" stroke-width="0.6" opacity="0.3"/>
+            <circle cx="60" cy="60" r="36" fill="none" stroke="var(--colour-accent-gold)" stroke-width="0.8" opacity="0.5" stroke-dasharray="6 4"/>
+            <circle cx="60" cy="60" r="22" fill="none" stroke="var(--colour-accent-secondary)" stroke-width="1" opacity="0.7"/>
           </g>
           <g class="icon-rotate-reverse">
-            <ellipse cx="60" cy="60" rx="48" ry="18" fill="none" stroke="var(--accent)" stroke-width="0.6" opacity="0.35"/>
-            <ellipse cx="60" cy="60" rx="36" ry="13" fill="none" stroke="var(--gold)" stroke-width="0.5" opacity="0.3"/>
+            <ellipse cx="60" cy="60" rx="48" ry="18" fill="none" stroke="var(--colour-accent-primary)" stroke-width="0.6" opacity="0.35"/>
+            <ellipse cx="60" cy="60" rx="36" ry="13" fill="none" stroke="var(--colour-accent-gold)" stroke-width="0.5" opacity="0.3"/>
           </g>
-          <circle cx="60" cy="60" r="5" fill="var(--gold)" opacity="0.9" class="icon-pulse"/>
-          <circle cx="60" cy="60" r="10" fill="none" stroke="var(--gold)" stroke-width="0.8" opacity="0.4" class="icon-pulse-ring"/>
+          <circle cx="60" cy="60" r="5" fill="var(--colour-accent-gold)" opacity="0.9" class="icon-pulse"/>
+          <circle cx="60" cy="60" r="10" fill="none" stroke="var(--colour-accent-gold)" stroke-width="0.8" opacity="0.4" class="icon-pulse-ring"/>
         </svg>
       </div>
       <div>
@@ -345,16 +112,16 @@
       <div class="work-card-visual">
         <svg class="card-icon" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
           <g class="icon-float-1">
-            <polygon points="60,20 80,55 40,55" fill="none" stroke="var(--gold)" stroke-width="1" opacity="0.8"/>
+            <polygon points="60,20 80,55 40,55" fill="none" stroke="var(--colour-accent-gold)" stroke-width="1" opacity="0.8"/>
           </g>
           <g class="icon-float-2">
-            <polygon points="35,62 58,95 20,95" fill="none" stroke="var(--silver)" stroke-width="0.8" opacity="0.6"/>
+            <polygon points="35,62 58,95 20,95" fill="none" stroke="var(--colour-accent-silver)" stroke-width="0.8" opacity="0.6"/>
           </g>
           <g class="icon-float-3">
-            <polygon points="85,62 100,95 65,95" fill="none" stroke="var(--accent)" stroke-width="0.8" opacity="0.6"/>
+            <polygon points="85,62 100,95 65,95" fill="none" stroke="var(--colour-accent-primary)" stroke-width="0.8" opacity="0.6"/>
           </g>
-          <line x1="60" y1="55" x2="37" y2="62" stroke="var(--gold)" stroke-width="0.5" opacity="0.3"/>
-          <line x1="60" y1="55" x2="83" y2="62" stroke="var(--gold)" stroke-width="0.5" opacity="0.3"/>
+          <line x1="60" y1="55" x2="37" y2="62" stroke="var(--colour-accent-gold)" stroke-width="0.5" opacity="0.3"/>
+          <line x1="60" y1="55" x2="83" y2="62" stroke="var(--colour-accent-gold)" stroke-width="0.5" opacity="0.3"/>
         </svg>
       </div>
       <div>
@@ -369,14 +136,14 @@
       <div class="work-card-visual">
         <svg class="card-icon" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
           <g class="icon-rotate-slow">
-            <polygon points="60,15 90,50 60,40" fill="none" stroke="var(--forest)" stroke-width="0.8" opacity="0.7"/>
-            <polygon points="60,15 30,50 60,40" fill="none" stroke="var(--forest)" stroke-width="0.8" opacity="0.7"/>
-            <polygon points="60,40 90,50 75,80" fill="none" stroke="var(--accent)" stroke-width="0.8" opacity="0.6"/>
-            <polygon points="60,40 30,50 45,80" fill="none" stroke="var(--accent)" stroke-width="0.8" opacity="0.6"/>
-            <polygon points="60,40 75,80 45,80" fill="none" stroke="var(--gold)" stroke-width="1" opacity="0.8"/>
-            <polygon points="75,80 90,50 60,105" fill="none" stroke="var(--silver)" stroke-width="0.6" opacity="0.4"/>
-            <polygon points="45,80 30,50 60,105" fill="none" stroke="var(--silver)" stroke-width="0.6" opacity="0.4"/>
-            <polygon points="60,105 75,80 45,80" fill="none" stroke="var(--gold)" stroke-width="0.8" opacity="0.6"/>
+            <polygon points="60,15 90,50 60,40" fill="none" stroke="var(--colour-accent-secondary)" stroke-width="0.8" opacity="0.7"/>
+            <polygon points="60,15 30,50 60,40" fill="none" stroke="var(--colour-accent-secondary)" stroke-width="0.8" opacity="0.7"/>
+            <polygon points="60,40 90,50 75,80" fill="none" stroke="var(--colour-accent-primary)" stroke-width="0.8" opacity="0.6"/>
+            <polygon points="60,40 30,50 45,80" fill="none" stroke="var(--colour-accent-primary)" stroke-width="0.8" opacity="0.6"/>
+            <polygon points="60,40 75,80 45,80" fill="none" stroke="var(--colour-accent-gold)" stroke-width="1" opacity="0.8"/>
+            <polygon points="75,80 90,50 60,105" fill="none" stroke="var(--colour-accent-silver)" stroke-width="0.6" opacity="0.4"/>
+            <polygon points="45,80 30,50 60,105" fill="none" stroke="var(--colour-accent-silver)" stroke-width="0.6" opacity="0.4"/>
+            <polygon points="60,105 75,80 45,80" fill="none" stroke="var(--colour-accent-gold)" stroke-width="0.8" opacity="0.6"/>
           </g>
         </svg>
       </div>
@@ -392,27 +159,27 @@
       <div class="work-card-visual">
         <svg class="card-icon" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
           <g class="icon-float-1">
-            <circle cx="30" cy="35" r="3" fill="var(--silver)" opacity="0.6"/>
-            <circle cx="60" cy="25" r="4" fill="var(--gold)" opacity="0.8"/>
-            <circle cx="90" cy="35" r="3" fill="var(--silver)" opacity="0.6"/>
-            <circle cx="20" cy="60" r="3" fill="var(--silver)" opacity="0.5"/>
-            <circle cx="60" cy="60" r="5" fill="var(--gold)" opacity="0.9" class="icon-pulse"/>
-            <circle cx="100" cy="60" r="3" fill="var(--silver)" opacity="0.5"/>
-            <circle cx="30" cy="85" r="3" fill="var(--silver)" opacity="0.6"/>
-            <circle cx="60" cy="95" r="4" fill="var(--accent)" opacity="0.7"/>
-            <circle cx="90" cy="85" r="3" fill="var(--silver)" opacity="0.6"/>
-            <line x1="30" y1="35" x2="60" y2="25" stroke="var(--silver)" stroke-width="0.5" opacity="0.3"/>
-            <line x1="60" y1="25" x2="90" y2="35" stroke="var(--silver)" stroke-width="0.5" opacity="0.3"/>
-            <line x1="30" y1="35" x2="20" y2="60" stroke="var(--silver)" stroke-width="0.5" opacity="0.3"/>
-            <line x1="90" y1="35" x2="100" y2="60" stroke="var(--silver)" stroke-width="0.5" opacity="0.3"/>
-            <line x1="20" y1="60" x2="60" y2="60" stroke="var(--gold)" stroke-width="0.6" opacity="0.4"/>
-            <line x1="60" y1="60" x2="100" y2="60" stroke="var(--gold)" stroke-width="0.6" opacity="0.4"/>
-            <line x1="60" y1="60" x2="60" y2="25" stroke="var(--gold)" stroke-width="0.6" opacity="0.4"/>
-            <line x1="60" y1="60" x2="60" y2="95" stroke="var(--gold)" stroke-width="0.6" opacity="0.4"/>
-            <line x1="20" y1="60" x2="30" y2="85" stroke="var(--silver)" stroke-width="0.5" opacity="0.3"/>
-            <line x1="100" y1="60" x2="90" y2="85" stroke="var(--silver)" stroke-width="0.5" opacity="0.3"/>
-            <line x1="30" y1="85" x2="60" y2="95" stroke="var(--silver)" stroke-width="0.5" opacity="0.3"/>
-            <line x1="90" y1="85" x2="60" y2="95" stroke="var(--silver)" stroke-width="0.5" opacity="0.3"/>
+            <circle cx="30" cy="35" r="3" fill="var(--colour-accent-silver)" opacity="0.6"/>
+            <circle cx="60" cy="25" r="4" fill="var(--colour-accent-gold)" opacity="0.8"/>
+            <circle cx="90" cy="35" r="3" fill="var(--colour-accent-silver)" opacity="0.6"/>
+            <circle cx="20" cy="60" r="3" fill="var(--colour-accent-silver)" opacity="0.5"/>
+            <circle cx="60" cy="60" r="5" fill="var(--colour-accent-gold)" opacity="0.9" class="icon-pulse"/>
+            <circle cx="100" cy="60" r="3" fill="var(--colour-accent-silver)" opacity="0.5"/>
+            <circle cx="30" cy="85" r="3" fill="var(--colour-accent-silver)" opacity="0.6"/>
+            <circle cx="60" cy="95" r="4" fill="var(--colour-accent-primary)" opacity="0.7"/>
+            <circle cx="90" cy="85" r="3" fill="var(--colour-accent-silver)" opacity="0.6"/>
+            <line x1="30" y1="35" x2="60" y2="25" stroke="var(--colour-accent-silver)" stroke-width="0.5" opacity="0.3"/>
+            <line x1="60" y1="25" x2="90" y2="35" stroke="var(--colour-accent-silver)" stroke-width="0.5" opacity="0.3"/>
+            <line x1="30" y1="35" x2="20" y2="60" stroke="var(--colour-accent-silver)" stroke-width="0.5" opacity="0.3"/>
+            <line x1="90" y1="35" x2="100" y2="60" stroke="var(--colour-accent-silver)" stroke-width="0.5" opacity="0.3"/>
+            <line x1="20" y1="60" x2="60" y2="60" stroke="var(--colour-accent-gold)" stroke-width="0.6" opacity="0.4"/>
+            <line x1="60" y1="60" x2="100" y2="60" stroke="var(--colour-accent-gold)" stroke-width="0.6" opacity="0.4"/>
+            <line x1="60" y1="60" x2="60" y2="25" stroke="var(--colour-accent-gold)" stroke-width="0.6" opacity="0.4"/>
+            <line x1="60" y1="60" x2="60" y2="95" stroke="var(--colour-accent-gold)" stroke-width="0.6" opacity="0.4"/>
+            <line x1="20" y1="60" x2="30" y2="85" stroke="var(--colour-accent-silver)" stroke-width="0.5" opacity="0.3"/>
+            <line x1="100" y1="60" x2="90" y2="85" stroke="var(--colour-accent-silver)" stroke-width="0.5" opacity="0.3"/>
+            <line x1="30" y1="85" x2="60" y2="95" stroke="var(--colour-accent-silver)" stroke-width="0.5" opacity="0.3"/>
+            <line x1="90" y1="85" x2="60" y2="95" stroke="var(--colour-accent-silver)" stroke-width="0.5" opacity="0.3"/>
           </g>
         </svg>
       </div>
@@ -439,18 +206,18 @@
   <br>
   <p style="font-style:italic;">The ambition now is to build something permanent in Glasgow. A creative home for the next generation of designers and technologists to let Glasgow flourish."</p>
   <br>
-  <p style="font-size:0.8rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-top:0.5rem;">— John Campbell, Founder</p>
+  <p style="font-size:0.8rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--colour-accent-gold);margin-top:0.5rem;">— John Campbell, Founder</p>
 </section>
 
 <footer>
   <div>
     <div class="footer-mark">
       <svg class="nav-mark-svg" viewBox="0 0 24 24" style="width:24px;height:24px;">
-        <circle cx="12" cy="12" r="10" style="fill:none;stroke:var(--ink);stroke-width:1.2;"/>
-        <circle cx="12" cy="12" r="6" style="fill:none;stroke:var(--ink);stroke-width:1.2;opacity:0.5;"/>
-        <circle cx="12" cy="12" r="2.5" style="fill:none;stroke:var(--ink);stroke-width:1.2;opacity:0.5;"/>
+        <circle cx="12" cy="12" r="10" style="fill:none;stroke:var(--colour-text);stroke-width:1.2;"/>
+        <circle cx="12" cy="12" r="6" style="fill:none;stroke:var(--colour-text);stroke-width:1.2;opacity:0.5;"/>
+        <circle cx="12" cy="12" r="2.5" style="fill:none;stroke:var(--colour-text);stroke-width:1.2;opacity:0.5;"/>
       </svg>
-      <span style="display:inline-block;letter-spacing:-0.04em;">Clyde<span style="color:var(--gold);">o</span>scope</span>
+      <span style="display:inline-block;letter-spacing:-0.04em;">Clyde<span style="color:var(--colour-accent-gold);">o</span>scope</span>
     </div>
     <p class="footer-tagline">A neuroaesthetic design studio based in Glasgow.</p>
   </div>

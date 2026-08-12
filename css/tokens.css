@@ -1,0 +1,113 @@
+/*
+  Clydeoscope — Design Tokens
+  ---------------------------
+  Placeholder values pulled from the current live site, not final
+  brand values. The categories and naming convention are the part
+  meant to stick — swap the values once the brand book is locked.
+
+  Dark, ancient-forest aesthetic — no light-theme tokens planned.
+*/
+
+:root {
+
+  /* ============================================================
+     COLOUR
+     Semantic tokens, named by role rather than by hue, so the
+     values can change without renaming everything that uses them.
+     Drawn from the site's current (dark) palette only — the unused
+     light-theme block flagged in the step 1 audit was not revived.
+     ============================================================ */
+
+  /* Surface */
+  --colour-background: #0a0c0b;
+  --colour-surface: #13160f;
+
+  /* Text */
+  --colour-text: #eee9df;
+  --colour-text-muted: #7a7973;
+
+  /* Border */
+  --colour-border: rgba(240, 237, 229, 0.1);
+
+  /* Accent */
+  --colour-accent-primary: #5aabb5;    /* teal — links, hero em */
+  --colour-accent-secondary: #5aab7a;  /* forest — emphasis text */
+  --colour-accent-gold: #c9b472;       /* gold — section markers, decorative */
+  --colour-accent-gold-soft: rgba(201, 180, 114, 0.12);
+  --colour-accent-silver: #aabfbd;     /* decorative icon strokes */
+
+  /* Call to action */
+  --colour-cta: #40916c;
+  --colour-cta-hover: #52b788;
+  --colour-cta-active: #74c69d;
+
+  /* Ambient canvas (wave strip + neural hero background) */
+  --colour-wave-a: #1a2e20;
+  --colour-wave-b: #1e4a60;
+  --colour-wave-c: #2a6e55;
+
+  /* ============================================================
+     TYPOGRAPHY
+     ============================================================ */
+
+  /* Families — loaded via Google Fonts <link> in index.html */
+  --font-family-display: 'Fraunces', Georgia, serif;
+  --font-family-body: 'Inter Tight', -apple-system, sans-serif;
+
+  /* Weights — the site leans almost entirely on light weights */
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+
+  /* Size scale — a rationalised target scale, not a 1:1 transcription
+     of the ~15 one-off sizes currently in the markup. Existing sizes
+     converge onto this during the eventual styles.css migration. */
+  --font-size-xs: 0.65rem;
+  --font-size-sm: 0.75rem;
+  --font-size-base: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.25rem;
+  --font-size-xl: 1.5rem;
+  --font-size-2xl: 2rem;
+  --font-size-display-sm: clamp(1.9rem, 4vw, 3rem); /* section h2 */
+  --font-size-display-lg: clamp(3rem, 8vw, 5.5rem); /* hero h1 */
+
+  /* Line height */
+  --line-height-tight: 1.05;
+  --line-height-snug: 1.2;
+  --line-height-base: 1.5;
+  --line-height-relaxed: 1.7;
+
+  /* Letter spacing */
+  --tracking-tight: -0.03em;
+  --tracking-snug: -0.02em;
+  --tracking-normal: 0em;
+  --tracking-wide: 0.08em;
+  --tracking-wider: 0.15em;
+  --tracking-widest: 0.2em;
+
+  /* ============================================================
+     SPACING
+     8px-grid scale — the number in each name is the pixel value
+     it represents, not a step index. Covers the recurring gaps and
+     padding values in the current markup. The hero's outlier top
+     padding (11rem/12rem, used exactly once) is left as a
+     page-specific value rather than promoted here — nothing else
+     recurs at that size yet to justify a shared token.
+     ============================================================ */
+  --space-4: 0.25rem;   /* 4px */
+  --space-8: 0.5rem;    /* 8px */
+  --space-12: 0.75rem;  /* 12px */
+  --space-16: 1rem;     /* 16px */
+  --space-20: 1.25rem;  /* 20px */
+  --space-24: 1.5rem;   /* 24px */
+  --space-32: 2rem;     /* 32px */
+  --space-40: 2.5rem;   /* 40px */
+  --space-48: 3rem;     /* 48px */
+  --space-64: 4rem;     /* 64px */
+  --space-80: 5rem;     /* 80px */
+  --space-96: 6rem;     /* 96px */
+  --space-128: 8rem;    /* 128px */
+
+}
