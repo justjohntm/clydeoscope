@@ -37,6 +37,10 @@
   --colour-accent-silver: #aabfbd;     /* decorative icon strokes */
   --colour-accent-green: #c9ffb3;      /* bright lime green — hero word accent + CTA buttons */
 
+  /* Status pill (neutral light tag, distinct from gold/green accents) */
+  --colour-pill-bg: #d9d9d4;
+  --colour-pill-text: #1a1a17;
+
   /* Call to action */
   --colour-cta: #40916c;
   --colour-cta-hover: #52b788;

@@ -139,7 +139,8 @@ nav {
 .founder-bio p { font-size: var(--font-size-md); line-height: var(--line-height-relaxed); color: var(--colour-text); margin-bottom: var(--space-20); }
 .pull-quote p { font-style: italic; font-size: 1.15rem; /* no token match */ line-height: 1.6; /* no token match */ }
 
-.eyebrow { font-family: var(--font-body); font-size: var(--font-size-md); font-weight: 700; /* no token match: bold, to match body copy weight per feedback */ color: var(--colour-accent-gold); margin-bottom: var(--space-16); }
+.pill-row { display: flex; flex-wrap: wrap; gap: var(--space-8); margin-bottom: var(--space-16); }
+.pill { display: inline-flex; align-items: center; padding: 0.35rem 0.9rem; /* no token match */ border-radius: 999px; background: var(--colour-pill-bg); color: var(--colour-pill-text); font-family: var(--font-body); font-size: var(--font-size-sm); font-weight: var(--font-weight-medium); }
 
 .prose { max-width: 640px; }
 .prose p { font-size: var(--font-size-md); line-height: var(--line-height-relaxed); color: var(--colour-text); margin-bottom: var(--space-20); }
