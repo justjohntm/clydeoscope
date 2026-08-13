@@ -50,9 +50,11 @@
      TYPOGRAPHY
      ============================================================ */
 
-  /* Families — loaded via Google Fonts <link> in index.html */
-  --font-family-display: 'Fraunces', Georgia, serif;
-  --font-family-body: 'Inter Tight', -apple-system, sans-serif;
+  /* Families — Chillax via Fontshare, Plus Jakarta Sans + Space Mono
+     via Google Fonts, all loaded through <link> tags in index.html. */
+  --font-head: 'Chillax', sans-serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+  --font-mono: 'Space Mono', monospace;
 
   /* Weights — the site leans almost entirely on light weights */
   --font-weight-light: 300;
