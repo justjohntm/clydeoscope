@@ -35,7 +35,7 @@
   --colour-accent-gold: #c9b472;       /* gold — section markers, decorative */
   --colour-accent-gold-soft: rgba(201, 180, 114, 0.12);
   --colour-accent-silver: #aabfbd;     /* decorative icon strokes */
-  --colour-accent-green: #8fa37a;      /* soft sage/moss — hero word accent, distinct from gold */
+  --colour-accent-green: #c9ffb3;      /* bright lime green — hero word accent + CTA buttons */
 
   /* Call to action */
   --colour-cta: #40916c;
