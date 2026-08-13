@@ -45,6 +45,10 @@
   --colour-wave-a: #1a2e20;
   --colour-wave-b: #1e4a60;
   --colour-wave-c: #2a6e55;
+  --colour-neural-node: #326e48;   /* neural canvas node fill */
+  --colour-neural-axon: #3c82a0;   /* neural canvas connection lines */
+  --colour-neural-pulse: #50a082;  /* neural canvas activation pulse */
+  --colour-neural-silver: #8ca2a0; /* neural canvas idle node/connection tint */
 
   /* ============================================================
      TYPOGRAPHY
