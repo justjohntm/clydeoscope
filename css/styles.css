@@ -98,6 +98,8 @@ nav {
   line-height: 1.05; /* no token match */
   letter-spacing: -0.025em; /* no token match */ margin-bottom: var(--space-32);
 }
+.hero h1 .accent-green { color: var(--colour-accent-green); }
+
 .hero-neural {
   position: absolute; inset: 0; z-index: 0;
   pointer-events: auto; user-select: none; -webkit-user-select: none;
