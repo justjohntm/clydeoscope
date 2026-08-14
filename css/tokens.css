@@ -37,9 +37,9 @@
   --colour-accent-silver: #aabfbd;     /* decorative icon strokes */
   --colour-accent-green: #c9ffb3;      /* bright lime green — hero word accent + CTA buttons */
 
-  /* Status pill (neutral light tag, distinct from gold/green accents) */
-  --colour-pill-bg: #d9d9d4;
-  --colour-pill-text: #1a1a17;
+  /* Status pill (neutral dark tag, distinct from gold/green accents) */
+  --colour-pill-bg: #000000;
+  --colour-pill-text: #eee9df;
 
   /* Call to action */
   --colour-cta: #40916c;
@@ -120,5 +120,7 @@
   --space-80: 5rem;     /* 80px */
   --space-96: 6rem;     /* 96px */
   --space-128: 8rem;    /* 128px */
+
+  --content-max: 87.5rem; /* 1400px */
 
 }

@@ -28,19 +28,21 @@
 <body>
 
 <nav>
-  <a href="#" class="nav-mark" aria-label="Clydeoscope home"><span style="display:inline-block;letter-spacing:-0.04em;">Clyde<span style="color:var(--colour-accent-gold);">o</span>scope</span></a>
-  <div class="nav-right">
-    <button class="sound-toggle" id="soundToggle" aria-label="Toggle sound" title="Toggle ambient sound">
-      <svg class="icon-sound-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-        <line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>
-      </svg>
-      <svg class="icon-sound-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
-        <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
-      </svg>
-    </button>
+  <div class="content-wrap">
+    <a href="#" class="nav-mark" aria-label="Clydeoscope home"><span style="display:inline-block;letter-spacing:-0.04em;">Clyde<span style="color:var(--colour-accent-gold);">o</span>scope</span></a>
+    <div class="nav-right">
+      <button class="sound-toggle" id="soundToggle" aria-label="Toggle sound" title="Toggle ambient sound">
+        <svg class="icon-sound-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+          <line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>
+        </svg>
+        <svg class="icon-sound-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+          <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+        </svg>
+      </button>
+    </div>
   </div>
 </nav>
 
@@ -61,81 +63,102 @@
 </section>
 
 <section class="section" id="studio-lab">
-  <h2>What we <em>do.</em></h2>
-  <div class="prose">
-    <p>We explore our design ideas and combine themith a neuroscience lens to build products and experiences that are interactive, immersive, and futuristic.</p>
-    <p>Neuroaesthetics is the thread that runs through all of our work: the study of how our brains and bodies respond to art, sound, space and design. It's an emerging science with a simple, radical finding. The things we see, hear and move through shape how we feel far more than we realise.</p>
-    <p>Everything we make is designed to be felt, not just used, to give a sense of what technology could be, when it's centred more around elevating our experience of life rather than gaming our attention.</p>
+  <div class="content-wrap">
+    <div class="feature-grid studio-lab-grid">
+      <div class="visualiser" aria-hidden="true">
+        <div class="visualiser-frame" id="visualiserFrame">
+          <div class="visualiser-placeholder">
+            <span class="feature-media-label">Visualiser loading&hellip;</span>
+          </div>
+        </div>
+      </div>
+      <div class="studio-lab-copy">
+        <h2>What we <em>do.</em></h2>
+        <div class="prose">
+          <p>We explore our design ideas and combine them with a neuroscience lens to build products and experiences that are interactive, immersive, and futuristic.</p>
+          <p>Neuroaesthetics is the thread that runs through all of our work: the study of how our brains and bodies respond to art, sound, space and design. It's an emerging science with a simple, radical finding. The things we see, hear and move through shape how we feel far more than we realise.</p>
+          <p>Everything we make is designed to be felt, not just used, to give a sense of what technology could be, when it's centred more around elevating our experience of life rather than gaming our attention.</p>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
 <section class="section" id="work">
-  <div class="pill-row">
-    <span class="pill">Wellness</span>
-    <span class="pill">In development</span>
-  </div>
-  <h2>The Sensory Reset Pod</h2>
-  <div class="feature-grid">
-    <div>
-      <div class="prose">
-        <p>A small, enclosed environment where nature and technology meet, built to bring you back to a more settled state.</p>
-        <p>Inside, sound, light and gentle movement respond to your own body, drawing you down out of the noise and into something quieter. It borrows from the natural world and the tools of the new one, and asks only that you stop, and notice.</p>
-        <p>You leave with a little more space than you came in with, and a glimpse of what your nervous system was doing while you were there.</p>
-      </div>
-      <a href="#" class="cta-link">Explore the pod</a>
+  <div class="content-wrap">
+    <div class="pill-row">
+      <span class="pill">Wellness</span>
+      <span class="pill">In development</span>
     </div>
-    <div class="feature-media feature-media-4-3 feature-media-photo">
-      <img src="images/sensory-reset-pod.webp" alt="A person reclined in the Sensory Reset Pod, eyes closed and wearing an EEG headband, facing a swirling green projection." loading="lazy">
+    <h2>The Sensory Reset Pod</h2>
+    <div class="feature-grid">
+      <div>
+        <div class="prose">
+          <p>A small, enclosed environment where nature and technology meet, built to bring you back to a more settled state.</p>
+          <p>Inside, sound, light and gentle movement respond to your own body, drawing you down out of the noise and into something quieter. It borrows from the natural world and the tools of the new one, and asks only that you stop, and notice.</p>
+          <p>You leave with a little more space than you came in with, and a glimpse of what your nervous system was doing while you were there.</p>
+        </div>
+        <a href="#" class="cta-link">Explore the pod</a>
+      </div>
+      <div class="feature-media feature-media-4-3" role="img" aria-label="Placeholder for Sensory Reset Pod photography">
+        <!-- Image placeholder: Sensory Reset Pod photo. Aspect ratio 4:3 (landscape). Replace with final photography. -->
+        <span class="feature-media-label">Sensory Reset Pod photo, coming soon</span>
+      </div>
     </div>
   </div>
 </section>
 
 <section class="section founder-section" id="founder">
-  <h2>Behind the <em>studio.</em></h2>
-  <div class="feature-grid">
-    <div class="feature-media feature-media-4-5" role="img" aria-label="Placeholder for founder portrait photography">
-      <!-- Image placeholder: founder portrait. Aspect ratio ~4:5 (portrait). Replace with final photography. -->
-      <span class="feature-media-label">Founder portrait, coming soon</span>
-    </div>
-    <div>
-      <p class="founder-name">John Campbell</p>
-      <p class="founder-role">Neuroaesthetic Designer &amp; Founder</p>
-      <div class="founder-bio pull-quote">
-        <p>I'd had this idea for years. At some point I realised it couldn't wait any longer. I wanted to give Glasgow something it doesn't have, something that lines up with what I believe deeply: that we deserve to live fuller, more present lives.</p>
-        <p>My career has spanned UX, UI, psychology and development, mostly in web design. I love making things that are genuinely useful. But I wanted to try something harder: not how to make things people use, but how to make things people feel.</p>
-        <p>For years, self-help and psychology have pulled at me. Close to 60 books over the last 5 or 6 years, digging into the work of people like Gabor Mat&eacute;, Bessel van der Kolk and Johann Hari, all bringing the mind-body connection back into focus. Then I read Rutger Bregman's <em>Moral Ambition</em>, and something clicked.</p>
-        <p>The modern world didn't suddenly become overwhelming. It crept up on us: the apps, the noise, the doomscrolling. Our brains were never built for this much digital noise, and our nervous systems are telling us so.</p>
-        <p>Clydeoscope is my answer to that. A belief that art, sound and designed experience can change how we feel, alter our perception, and help us live better because of it.</p>
+  <div class="content-wrap">
+    <h2>Behind the <em>studio.</em></h2>
+    <div class="feature-grid">
+      <div class="feature-media feature-media-4-5 feature-media-photo">
+        <img src="images/wellness_pod_meditation-ISE.webp" alt="John Campbell reclined in the Sensory Reset Pod, eyes closed and wearing an EEG headband, facing a mandala projection." loading="lazy">
+      </div>
+      <div>
+        <p class="founder-name">John Campbell</p>
+        <p class="founder-role">Neuroaesthetic Designer &amp; Founder</p>
+        <div class="founder-bio pull-quote">
+          <p>I'd had this idea for years. At some point I realised it couldn't wait any longer. I wanted to give Glasgow something it doesn't have, something that lines up with what I believe deeply: that we deserve to live fuller, more present lives.</p>
+          <p>My career has spanned UX, UI, psychology and development, mostly in web design. I love making things that are genuinely useful. But I wanted to try something harder: not how to make things people use, but how to make things people feel.</p>
+          <p>For years, self-help and psychology have pulled at me. Close to 60 books over the last 5 or 6 years, digging into the work of people like Gabor Mat&eacute;, Bessel van der Kolk and Johann Hari, all bringing the mind-body connection back into focus. Then I read Rutger Bregman's <em>Moral Ambition</em>, and something clicked.</p>
+          <p>The modern world didn't suddenly become overwhelming. It crept up on us: the apps, the noise, the doomscrolling. Our brains were never built for this much digital noise, and our nervous systems are telling us so.</p>
+          <p>Clydeoscope is my answer to that. A belief that art, sound and designed experience can change how we feel, alter our perception, and help us live better because of it.</p>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
 <section class="section" id="future">
-  <h2>The bigger picture</h2>
-  <div class="prose">
-    <p>Alongside our own work, we're looking to create partnerships, take on commissions across a range of design work, and collaborate with people who want to make something genuinely different. Each one helps fund the next step and brings us closer to the bigger picture. We're exploring funding and new ideas to grow beyond the pod into a permanent home in Glasgow: a new kind of creative and engaging third space for the city.</p>
+  <div class="content-wrap">
+    <h2>The bigger picture</h2>
+    <div class="prose">
+      <p>Alongside our own work, we're looking to create partnerships, take on commissions across a range of design work, and collaborate with people who want to make something genuinely different. Each one helps fund the next step and brings us closer to the bigger picture. We're exploring funding and new ideas to grow beyond the pod into a permanent home in Glasgow: a new kind of creative and engaging third space for the city.</p>
+    </div>
+    <a href="#contact" class="cta-link">Work with us</a>
   </div>
-  <a href="#contact" class="cta-link">Work with us</a>
 </section>
 
 <footer>
-  <div>
-    <div class="footer-mark">
-      <span style="display:inline-block;letter-spacing:-0.04em;">Clyde<span style="color:var(--colour-accent-gold);">o</span>scope</span>
+  <div class="content-wrap">
+    <div>
+      <div class="footer-mark">
+        <span style="display:inline-block;letter-spacing:-0.04em;">Clyde<span style="color:var(--colour-accent-gold);">o</span>scope</span>
+      </div>
+      <p class="footer-tagline">Clydeoscope, a neuroaesthetic design studio based in Glasgow.</p>
     </div>
-    <p class="footer-tagline">Clydeoscope, a neuroaesthetic design studio based in Glasgow.</p>
-  </div>
-  <div class="footer-col" id="contact">
-    <h4>Get in touch</h4>
-    <a href="mailto:clydeoscopestudio@gmail.com">clydeoscopestudio@gmail.com</a>
-  </div>
-  <div class="footer-col">
-    <h4>Follow</h4>
-    <a href="#">LinkedIn</a>
-  </div>
-  <div class="footer-bottom">
-    <span>© Clydeoscope &middot; Glasgow</span>
+    <div class="footer-col" id="contact">
+      <h4>Get in touch</h4>
+      <a href="mailto:clydeoscopestudio@gmail.com">clydeoscopestudio@gmail.com</a>
+    </div>
+    <div class="footer-col">
+      <h4>Follow</h4>
+      <a href="#">LinkedIn</a>
+    </div>
+    <div class="footer-bottom">
+      <span>© Clydeoscope &middot; Glasgow</span>
+    </div>
   </div>
 </footer>
 
@@ -364,6 +387,12 @@
   }
 
   draw();
+</script>
+
+<script type="module">
+  import { mountVisualiserTile } from './visualiser-tile/js/tile.js';
+  const frame = document.getElementById('visualiserFrame');
+  if (frame) mountVisualiserTile(frame, { basePath: 'visualiser-tile/' });
 </script>
 </body>
 </html>
