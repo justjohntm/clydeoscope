@@ -51,14 +51,27 @@
 </div>
 
 <section class="hero">
-  <div class="hero-content">
-    <h1>See differently. Feel <span class="accent-green">fully</span>.</h1>
-    <p class="hero-sub">
-      <strong style="color:var(--colour-text);">Clydeoscope</strong> is a <a href="#studio-lab" style="color:var(--colour-text);text-decoration:underline;text-decoration-color:var(--colour-accent-gold);text-underline-offset:4px;text-decoration-thickness:1px;">neuroaesthetic design studio</a> and immersive tech lab in Glasgow. We combine design and neuroscience with a goal of helping people shift perspective and reconnect with how they feel.
-    </p>
-  </div>
-  <div class="hero-neural" aria-hidden="true">
-    <canvas id="neuralCanvas"></canvas>
+  <div class="hero-grid">
+    <div class="portal-column">
+      <div class="portal-perspective">
+        <div class="portal-box" id="portalBox" data-state="closed" role="button" tabindex="0" aria-label="Open the Chimer">
+          <canvas id="chimerCanvas"></canvas>
+          <canvas id="ringCanvas"></canvas>
+          <canvas id="burstCanvas" aria-hidden="true"></canvas>
+          <button class="close-btn" id="closeBtn" aria-label="Close the Chimer" tabindex="-1">
+            <svg viewBox="0 0 14 14" fill="none" stroke-width="2" stroke-linecap="round">
+              <line x1="4" y1="4" x2="10" y2="10"/><line x1="10" y1="4" x2="4" y2="10"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="hero-content">
+      <h1>See differently. Feel <span class="accent-green">fully</span>.</h1>
+      <p class="hero-sub">
+        <strong style="color:var(--colour-text);">Clydeoscope</strong> is a <a href="#studio-lab" style="color:var(--colour-text);text-decoration:underline;text-decoration-color:var(--colour-accent-gold);text-underline-offset:4px;text-decoration-thickness:1px;">neuroaesthetic design studio</a> and immersive tech lab in Glasgow. We combine design and neuroscience with a goal of helping people shift perspective and reconnect with how they feel.
+      </p>
+    </div>
   </div>
 </section>
 
@@ -218,101 +231,6 @@
     requestAnimationFrame(draw);
   }
 
-  const nc2 = document.getElementById('neuralCanvas');
-  if (nc2) {
-    const nctx2 = nc2.getContext('2d');
-    let nw2, nh2, ndpr2;
-    const COLS = {
-      dark: {
-        bg: cssVarRgb('--colour-background'),
-        node: cssVarRgb('--colour-neural-node'),
-        axon: cssVarRgb('--colour-neural-axon'),
-        pulse: cssVarRgb('--colour-neural-pulse'),
-        gold: cssVarRgb('--colour-accent-gold'),
-        silver: cssVarRgb('--colour-neural-silver')
-      }
-    };
-    function rgba2(c,a){ return `rgba(${c[0]},${c[1]},${c[2]},${a})`; }
-    function mix2(a,b,t){ return [a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t,a[2]+(b[2]-a[2])*t]; }
-    let nodes2=[], connections2=[];
-    const NODE_COUNT=()=>window.innerWidth<700?42:80;
-    function buildNeural(){
-      nodes2=[];
-      const n=NODE_COUNT();
-      for(let i=0;i<n;i++) nodes2.push({x:Math.random()*nw2,y:Math.random()*nh2,ox:0,oy:0,vx:(Math.random()-0.5)*0.18,vy:(Math.random()-0.5)*0.18,r:1.4+Math.random()*2.2,charge:0,phase:Math.random()*Math.PI*2});
-      nodes2.forEach(nd=>{nd.ox=nd.x;nd.oy=nd.y;});
-      connections2=[];
-      const threshold=Math.min(nw2,nh2)*0.28;
-      for(let i=0;i<nodes2.length;i++) for(let j=i+1;j<nodes2.length;j++){const dx=nodes2[i].x-nodes2[j].x,dy=nodes2[i].y-nodes2[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<threshold)connections2.push({a:i,b:j,d,pulse:0});}
-    }
-    function resizeNeural(){
-      ndpr2=window.devicePixelRatio||1;
-      const rect=nc2.parentElement.getBoundingClientRect();
-      nw2=rect.width;nh2=rect.height;
-      nc2.width=nw2*ndpr2;nc2.height=nh2*ndpr2;
-      nc2.style.width=nw2+'px';nc2.style.height=nh2+'px';
-      nctx2.setTransform(ndpr2,0,0,ndpr2,0,0);
-      buildNeural();
-    }
-    window.addEventListener('resize',resizeNeural);
-    resizeNeural();
-
-    let touchX=-1,touchY=-1,touchActive=false;
-    function handleStart(e){e.preventDefault();const rect=nc2.getBoundingClientRect(),src=e.touches?e.touches[0]:e;touchX=src.clientX-rect.left;touchY=src.clientY-rect.top;touchActive=true;activateNear(touchX,touchY,1.0);}
-    function handleMove(e){e.preventDefault();if(!touchActive)return;const rect=nc2.getBoundingClientRect(),src=e.touches?e.touches[0]:e;touchX=src.clientX-rect.left;touchY=src.clientY-rect.top;activateNear(touchX,touchY,0.6);}
-    function handleEnd(){touchActive=false;touchX=-1;touchY=-1;}
-    nc2.addEventListener('touchstart',handleStart,{passive:false});
-    nc2.addEventListener('touchmove',handleMove,{passive:false});
-    nc2.addEventListener('touchend',handleEnd,{passive:false});
-    nc2.addEventListener('mousedown',handleStart);
-    nc2.addEventListener('mousemove',e=>{if(!touchActive)return;handleMove(e);});
-    nc2.addEventListener('mouseup',handleEnd);
-    nc2.addEventListener('mouseleave',handleEnd);
-
-    function activateNear(x,y,strength){
-      const radius=Math.min(nw2,nh2)*0.22;
-      nodes2.forEach(nd=>{const dx=nd.x-x,dy=nd.y-y,d=Math.sqrt(dx*dx+dy*dy);if(d<radius)nd.charge=Math.min(1,nd.charge+(1-d/radius)*strength);});
-      connections2.forEach(c=>{const na=nodes2[c.a],nb=nodes2[c.b];if(na.charge>0.3||nb.charge>0.3)c.pulse=Math.max(c.pulse,(na.charge+nb.charge)*0.5*strength);});
-    }
-    function breath(t){return 0.5+0.5*Math.sin((t/5500)*Math.PI*2-Math.PI/2);}
-    let nt2=0,nlast=performance.now();
-    function drawNeural(now){
-      const dt=Math.min(50,now-nlast);nlast=now;
-      const pal=COLS.dark;
-      const br=breath(now);
-      nctx2.fillStyle=rgba2(pal.bg,1);
-      nctx2.fillRect(0,0,nw2,nh2);
-      nodes2.forEach(nd=>{nd.x+=nd.vx*(dt/16);nd.y+=nd.vy*(dt/16);if(nd.x<0||nd.x>nw2)nd.vx*=-1;if(nd.y<0||nd.y>nh2)nd.vy*=-1;nd.x=Math.max(0,Math.min(nw2,nd.x));nd.y=Math.max(0,Math.min(nh2,nd.y));nd.charge*=0.985;nd.phase+=0.003*(dt/16);});
-      connections2.forEach(c=>{
-        const na=nodes2[c.a],nb=nodes2[c.b];
-        const avgCharge=(na.charge+nb.charge)*0.5;
-        c.pulse*=0.97;
-        const dx=nb.x-na.x,dy=nb.y-na.y,dist=Math.sqrt(dx*dx+dy*dy);
-        const threshold=Math.min(nw2,nh2)*0.28;
-        if(dist>threshold)return;
-        const proximity=1-dist/threshold;
-        const alpha=0.08+avgCharge*0.35+c.pulse*0.3;
-        const col=avgCharge>0.15?mix2(pal.axon,pal.gold,Math.min(1,avgCharge+c.pulse)):pal.silver;
-        nctx2.strokeStyle=rgba2(col,alpha*proximity);nctx2.lineWidth=0.6+avgCharge*1.4+c.pulse*1.2;
-        nctx2.beginPath();nctx2.moveTo(na.x,na.y);nctx2.lineTo(nb.x,nb.y);nctx2.stroke();
-        if(avgCharge>0.2||c.pulse>0.2){nctx2.strokeStyle=rgba2(pal.gold,(avgCharge+c.pulse)*0.12);nctx2.lineWidth=(0.6+avgCharge*1.4)*5;nctx2.beginPath();nctx2.moveTo(na.x,na.y);nctx2.lineTo(nb.x,nb.y);nctx2.stroke();}
-      });
-      nodes2.forEach(nd=>{
-        const pulse=0.5+0.5*Math.sin(nd.phase);
-        const size=nd.r*(1+br*0.12)*(1+nd.charge*1.6)*(1+pulse*0.08);
-        const col=nd.charge>0.15?mix2(pal.node,pal.gold,Math.min(1,nd.charge*1.4)):mix2(pal.silver,pal.node,0.4);
-        const alpha=0.45+nd.charge*0.5;
-        if(nd.charge>0.1){const g=nctx2.createRadialGradient(nd.x,nd.y,0,nd.x,nd.y,size*5);g.addColorStop(0,rgba2(pal.gold,nd.charge*0.3));g.addColorStop(1,rgba2(pal.gold,0));nctx2.fillStyle=g;nctx2.beginPath();nctx2.arc(nd.x,nd.y,size*5,0,Math.PI*2);nctx2.fill();}
-        nctx2.fillStyle=rgba2(col,alpha);nctx2.beginPath();nctx2.arc(nd.x,nd.y,size,0,Math.PI*2);nctx2.fill();
-      });
-      const ag=nctx2.createRadialGradient(nw2*0.72,nh2*0.38,0,nw2*0.72,nh2*0.38,Math.min(nw2,nh2)*0.55);
-      ag.addColorStop(0,rgba2(pal.gold,0.04+br*0.03));ag.addColorStop(1,rgba2(pal.gold,0));
-      nctx2.fillStyle=ag;nctx2.fillRect(0,0,nw2,nh2);
-      nt2+=dt;requestAnimationFrame(drawNeural);
-    }
-    requestAnimationFrame(drawNeural);
-  }
-
   const CELTIC_NOTES=[146.83,164.81,196.00,220.00,261.63,293.66,329.63,392.00,440.00,523.25,587.33,659.25];
   let audioCtx=null,masterGain=null,droneNodes=[],soundEnabled=false;
 
@@ -345,11 +263,12 @@
     setTimeout(()=>{droneNodes.forEach(n=>{try{n.stop();}catch(e){}});droneNodes=[];audioCtx.close();audioCtx=null;masterGain=null;},1600);
   }
 
-  function playCelticTone(x,y){
+  function playCelticTone(x,y,w,h){
     if(!audioCtx||!soundEnabled)return;
-    const noteIdx=Math.floor((x/window.innerWidth)*CELTIC_NOTES.length);
+    w=w||window.innerWidth;h=h||window.innerHeight;
+    const noteIdx=Math.floor((x/w)*CELTIC_NOTES.length);
     const freq=CELTIC_NOTES[Math.max(0,Math.min(CELTIC_NOTES.length-1,noteIdx))];
-    const overtone=1+(y/window.innerHeight)*0.015;
+    const overtone=1+(y/h)*0.015;
     const osc=audioCtx.createOscillator(),osc2=audioCtx.createOscillator(),env=audioCtx.createGain(),now=audioCtx.currentTime;
     osc.type='triangle';osc.frequency.value=freq*overtone;
     osc2.type='sine';osc2.frequency.value=freq*overtone*2.001;
@@ -358,22 +277,6 @@
     osc.connect(env);osc2.connect(osc2gain);osc2gain.connect(env);env.connect(masterGain);
     if(window._clydeConvolver)env.connect(window._clydeConvolver);
     osc.start(now);osc.stop(now+3);osc2.start(now);osc2.stop(now+3);
-  }
-
-  let lastToneTime=0;
-  function maybePlayTone(e){
-    if(!soundEnabled)return;
-    const now2=Date.now();if(now2-lastToneTime<120)return;
-    lastToneTime=now2;const src=e.touches?e.touches[0]:e;
-    playCelticTone(src.clientX,src.clientY);
-  }
-
-  const nc2ref=document.getElementById('neuralCanvas');
-  if(nc2ref){
-    nc2ref.addEventListener('touchstart',maybePlayTone,{passive:true});
-    nc2ref.addEventListener('touchmove',maybePlayTone,{passive:true});
-    nc2ref.addEventListener('mousedown',maybePlayTone);
-    nc2ref.addEventListener('mousemove',e=>{if(e.buttons)maybePlayTone(e);});
   }
 
   const soundBtn=document.getElementById('soundToggle');
@@ -387,6 +290,925 @@
   }
 
   draw();
+
+  /* ────────────────────────────────────────────────────────────
+     Hero "o" portal — the gold ring around the wordmark's "o"
+     deforms from a circle into a rounded-rect frame around a
+     contained Chimer (the neural network + chime interaction,
+     forked from the block above into a box-scoped module).
+     Audio is routed through the single shared audioCtx/masterGain/
+     convolver graph above — no second AudioContext is created here.
+  ──────────────────────────────────────────────────────────── */
+  (() => {
+    const portalBox    = document.getElementById('portalBox');
+    const ringCanvas   = document.getElementById('ringCanvas');
+    const chimerCanvas = document.getElementById('chimerCanvas');
+    const burstCanvas  = document.getElementById('burstCanvas');
+    const closeBtn     = document.getElementById('closeBtn');
+    if (!portalBox || !ringCanvas || !chimerCanvas || !burstCanvas || !closeBtn) return;
+
+    const rCtx = ringCanvas.getContext('2d');
+    const cCtx = chimerCanvas.getContext('2d');
+    const bCtx = burstCanvas.getContext('2d');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const CFG = {
+      numBlades: 6,
+      bladeSpan: 1.18,
+      ringWidth: 6,
+      ringPad: 0.78,
+      openMs: reducedMotion ? 180 : 950,
+      closeMs: reducedMotion ? 180 : 1050,
+      drainMs: reducedMotion ? 150 : 750,
+      nodeCount: (w) => w < 480 ? 26 : 42,
+      connectThresh: 0.28,
+      activateRadius: 0.22,
+      closedWidth: (w) => Math.max(220, Math.min(300, w * 0.26)),
+      openWidth:   (w) => Math.max(300, Math.min(680, w * 0.50)),
+      // O→Chimer burst overlay: phase boundaries as a fraction of the open
+      // transition (0..1), ratios lifted from the brief's 0.4s/1.0s/1.8s
+      // phase split so the beats land in the same proportions, just
+      // compressed onto the existing (already-tuned) openMs timeline
+      // instead of stretching the interaction to a flat 1.8s.
+      burstPhase1End: 0.22,
+      burstPhase2End: 0.56,
+      burstParticles: 46,
+    };
+
+    const WHITE = [255, 255, 255];
+
+    const PAL = {
+      bg:     cssVarRgb('--colour-background'),
+      node:   cssVarRgb('--colour-neural-node'),
+      axon:   cssVarRgb('--colour-neural-axon'),
+      gold:   cssVarRgb('--colour-accent-gold'),
+      silver: cssVarRgb('--colour-neural-silver'),
+    };
+
+    function rgba(c,a) { return `rgba(${c[0]},${c[1]},${c[2]},${a})`; }
+    function mix(a,b,t) { return [a[0]+(b[0]-a[0])*t, a[1]+(b[1]-a[1])*t, a[2]+(b[2]-a[2])*t]; }
+    function ease(t) { return t<0.5 ? 4*t*t*t : 1-Math.pow(-2*t+2,3)/2; }
+    function clamp01(v) { return Math.max(0, Math.min(1, v)); }
+
+    // Rounded rect that degenerates to a perfect circle when w === h === 2r —
+    // this is the "o becomes the box" morph: fw/fh/fr are lerped between the
+    // closed-circle values and the box's live rendered size every frame.
+    function roundedRectPath(ctx, cx, cy, w, h, r) {
+      const x = cx - w/2, y = cy - h/2;
+      const rr = Math.max(0, Math.min(r, w/2, h/2));
+      ctx.beginPath();
+      ctx.moveTo(x+rr, y);
+      ctx.lineTo(x+w-rr, y);
+      ctx.arcTo(x+w, y, x+w, y+rr, rr);
+      ctx.lineTo(x+w, y+h-rr);
+      ctx.arcTo(x+w, y+h, x+w-rr, y+h, rr);
+      ctx.lineTo(x+rr, y+h);
+      ctx.arcTo(x, y+h, x, y+h-rr, rr);
+      ctx.lineTo(x, y+rr);
+      ctx.arcTo(x, y, x+rr, y, rr);
+      ctx.closePath();
+    }
+
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    let state     = 'closed'; // closed | opening | open | draining | closing
+    let openness  = 0;
+    let animStart = 0;
+    let draining  = false;
+
+    let rW, rH, rCx, rCy, closedRingR;
+    let liveW = 0, liveH = 0;
+    let cW, cH;
+
+    let nodes = [], connections = [];
+
+    let flashT = -1; // open bloom timer, -1 = inactive
+    let shockT = -1; // close shockwave timer
+
+    // O→Chimer burst overlay — isolated state, touched only by initBurst()/
+    // drawBurstOverlay() below and the two call-sites in openPortal()/loop().
+    let burstActive = false;
+    let burstParticles = [];
+
+    const motes = Array.from({length: 6}, (_, i) => ({
+      angle: i * Math.PI * 2 / 6 + Math.random() * 0.8,
+      r: 0.9 + Math.random() * 0.3,
+      speed: 0.00015 + Math.random() * 0.00025,
+      size: 0.7 + Math.random() * 1.1,
+      phase: Math.random() * Math.PI * 2,
+    }));
+
+    /* ── open/close chime — routed through the shared masterGain/convolver,
+       gated on soundEnabled so a muted visitor opens/closes silently ── */
+    function playChimeTone(freq, dur, vol) {
+      if (!soundEnabled || !audioCtx || !masterGain) return;
+      const now = audioCtx.currentTime;
+      const osc = audioCtx.createOscillator();
+      const osc2 = audioCtx.createOscillator();
+      const env = audioCtx.createGain();
+      const o2g = audioCtx.createGain();
+      osc.type = 'triangle'; osc.frequency.value = freq;
+      osc2.type = 'sine'; osc2.frequency.value = freq * 2.001;
+      o2g.gain.value = 0.2;
+      env.gain.setValueAtTime(0, now);
+      env.gain.linearRampToValueAtTime(vol, now + 0.012);
+      env.gain.exponentialRampToValueAtTime(0.001, now + dur);
+      osc.connect(env); osc2.connect(o2g); o2g.connect(env);
+      env.connect(masterGain);
+      if (window._clydeConvolver) env.connect(window._clydeConvolver);
+      osc.start(now); osc.stop(now + dur + 0.1);
+      osc2.start(now); osc2.stop(now + dur + 0.1);
+    }
+    function playOpenChime() {
+      [523.25, 659.25, 783.99, 1046.5].forEach((f, i) =>
+        setTimeout(() => playChimeTone(f, 0.9, 0.09), i * 80));
+    }
+    function playCloseChime() {
+      [1046.5, 783.99, 659.25, 523.25].forEach((f, i) =>
+        setTimeout(() => playChimeTone(f, 0.5, 0.07), i * 65));
+    }
+
+    /* ── canvas sizing ── */
+    function sizeRingCanvas() {
+      const w = CFG.closedWidth(window.innerWidth);
+      closedRingR = (w / 2) * CFG.ringPad;
+      rW = w; rH = w;
+      ringCanvas.width = rW * dpr;
+      ringCanvas.height = rH * dpr;
+      rCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      burstCanvas.width = rW * dpr;
+      burstCanvas.height = rH * dpr;
+      bCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      rCx = rW / 2; rCy = rH / 2;
+      liveW = rW; liveH = rH;
+    }
+
+    // Keeps the ring canvas's coordinate space matched to the box's live
+    // rendered size (read every frame — the box is mid CSS-transition while
+    // this runs), so the gold frame tracks the box's real edges as it grows.
+    // Uses offsetWidth/offsetHeight (the box's own untransformed layout
+    // size), not getBoundingClientRect (the screen-projected, foreshortened
+    // size) — the hinge-fold rotates the box and its canvases together as
+    // one rigid plane via transform-style:preserve-3d, so the canvas should
+    // draw at its flat local size and let the browser's compositor do the
+    // 3D foreshortening, not fight it by shrinking its own coordinate space.
+    function syncRingCanvasToBox() {
+      const w = portalBox.offsetWidth, h = portalBox.offsetHeight;
+      if (w < 1 || h < 1) return;
+      if (Math.abs(w - liveW) > 0.5 || Math.abs(h - liveH) > 0.5) {
+        liveW = w; liveH = h;
+        rW = w; rH = h;
+        ringCanvas.width = w * dpr;
+        ringCanvas.height = h * dpr;
+        rCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        burstCanvas.width = w * dpr;
+        burstCanvas.height = h * dpr;
+        bCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+      rCx = rW / 2; rCy = rH / 2;
+    }
+
+    function sizeChimerCanvas() {
+      const w = CFG.openWidth(window.innerWidth);
+      const h = w * 3 / 4;
+      cW = w; cH = h;
+      chimerCanvas.width = cW * dpr;
+      chimerCanvas.height = cH * dpr;
+      cCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    /* ── ring canvas: iris shutter + circle→rect gold frame + motes + shockwave ── */
+    function drawRingFrame(t) {
+      syncRingCanvasToBox();
+      rCtx.clearRect(0, 0, rW, rH);
+      const breathe = 0.5 + 0.5 * Math.sin(t * 0.35);
+      const innerR = closedRingR - CFG.ringWidth * 0.5;
+
+      const shutterAlpha = Math.max(0, 1 - openness * 1.4);
+      if (shutterAlpha > 0.002) {
+        rCtx.save();
+        rCtx.globalAlpha = shutterAlpha;
+        rCtx.fillStyle = rgba(PAL.bg, 1);
+        rCtx.beginPath();
+        rCtx.rect(0, 0, rW, rH);
+        rCtx.arc(rCx, rCy, innerR, 0, Math.PI * 2, true);
+        rCtx.fill('evenodd');
+        rCtx.restore();
+
+        const n = CFG.numBlades;
+        const sector = Math.PI * 2 / n;
+        const half = sector * CFG.bladeSpan / 2;
+        const bladeA = Math.max(0, 1 - openness * 1.6);
+
+        rCtx.save();
+        rCtx.globalAlpha = bladeA;
+        for (let i = 0; i < n; i++) {
+          const base = i * sector;
+          const pD = innerR * 0.88;
+          const pX = rCx + Math.cos(base) * pD;
+          const pY = rCy + Math.sin(base) * pD;
+          const rot = openness * sector * 1.8;
+
+          rCtx.save();
+          rCtx.translate(pX, pY);
+          rCtx.rotate(rot);
+          rCtx.translate(-pX, -pY);
+          rCtx.beginPath();
+          rCtx.moveTo(rCx, rCy);
+          rCtx.arc(rCx, rCy, innerR, base - half, base + half);
+          rCtx.closePath();
+          rCtx.fillStyle = rgba(mix(PAL.bg, [0,0,0], 0.1), 1);
+          rCtx.fill();
+          rCtx.strokeStyle = rgba(PAL.gold, 0.08 * (1 - openness));
+          rCtx.lineWidth = 0.5;
+          rCtx.stroke();
+          rCtx.restore();
+        }
+        rCtx.restore();
+      }
+
+      // The gold frame — the "o" itself, interpolated from a circle (closed)
+      // into a rounded rectangle hugging the box's live edges (open). Stroke
+      // stays at near-full opacity throughout; only the shutter/motes fade.
+      const inset = 3;
+      const targetW = Math.max(1, rW - inset * 2);
+      const targetH = Math.max(1, rH - inset * 2);
+      const targetR = 18;
+      const fw = closedRingR * 2 + (targetW - closedRingR * 2) * openness;
+      const fh = closedRingR * 2 + (targetH - closedRingR * 2) * openness;
+      const fr = closedRingR + (targetR - closedRingR) * openness;
+
+      // Ambient glow — clipped to the frame's own shape (a circle when
+      // closed, the rounded rect when open) instead of washing the whole
+      // square canvas a flat tone, and cooling from gold at the core to
+      // the hero's blue/green neural palette at the rim.
+      const heroTint = mix(PAL.axon, PAL.node, 0.5);
+      const glowA = (0.06 + breathe * 0.09) * (0.75 + openness * 0.25);
+      const glowPad = CFG.ringWidth * 3.5;
+      rCtx.save();
+      roundedRectPath(rCtx, rCx, rCy, fw + glowPad * 2, fh + glowPad * 2, fr + glowPad);
+      rCtx.clip();
+      const glowR = Math.max(fw, fh) / 2 + glowPad;
+      const halo = rCtx.createRadialGradient(rCx, rCy, glowR * 0.4, rCx, rCy, glowR * 1.05);
+      halo.addColorStop(0, rgba(PAL.gold, glowA));
+      halo.addColorStop(0.6, rgba(mix(PAL.gold, heroTint, 0.5), glowA * 0.55));
+      halo.addColorStop(1, rgba(heroTint, 0));
+      rCtx.fillStyle = halo;
+      rCtx.fillRect(0, 0, rW, rH);
+      rCtx.restore();
+
+      roundedRectPath(rCtx, rCx, rCy, fw, fh, fr);
+      rCtx.strokeStyle = rgba(PAL.gold, 0.16);
+      rCtx.lineWidth = CFG.ringWidth * 2.6;
+      rCtx.shadowColor = rgba(PAL.gold, 0.22 + breathe * 0.14);
+      rCtx.shadowBlur = 24;
+      rCtx.stroke();
+      rCtx.shadowBlur = 0; rCtx.shadowColor = 'transparent';
+
+      roundedRectPath(rCtx, rCx, rCy, fw, fh, fr);
+      rCtx.strokeStyle = rgba(PAL.gold, 1);
+      rCtx.lineWidth = CFG.ringWidth;
+      rCtx.stroke();
+
+      // Motes — idle only, orbit the closed-scale ring
+      if (openness < 0.4) {
+        const moteA = Math.max(0, 1 - openness / 0.4);
+        motes.forEach(m => {
+          m.angle += m.speed;
+          const x = rCx + Math.cos(m.angle) * closedRingR * m.r;
+          const y = rCy + Math.sin(m.angle) * closedRingR * m.r;
+          const a = (0.25 + 0.25 * Math.sin(t * 0.4 + m.phase)) * breathe * moteA;
+          rCtx.fillStyle = rgba(PAL.gold, a);
+          rCtx.beginPath();
+          rCtx.arc(x, y, m.size, 0, Math.PI * 2);
+          rCtx.fill();
+        });
+      }
+
+      // Shockwave pulse when the "o" re-forms after closing
+      if (shockT >= 0) {
+        const dur = 0.7;
+        const p = shockT / dur;
+        if (p <= 1) {
+          rCtx.save();
+          const r = closedRingR * (0.7 + p * 0.9);
+          rCtx.globalAlpha = (1 - p) * 0.5;
+          rCtx.beginPath();
+          rCtx.arc(rCx, rCy, r, 0, Math.PI * 2);
+          rCtx.strokeStyle = rgba(PAL.gold, 1);
+          rCtx.lineWidth = 2.5 * (1 - p * 0.6);
+          rCtx.stroke();
+          rCtx.restore();
+        } else {
+          shockT = -1;
+        }
+      }
+    }
+
+    /* ── O→Chimer transition overlay: particle burst + frame solidification ──
+       Purely additive decoration on its own canvas/layer, above the gold
+       frame but touching none of its state or math — drawRingFrame above is
+       completely unmodified. Runs only while state === 'opening', driven by
+       the same linear progress value that already drives the box's open
+       animation, so it can never drift out of sync with it. Mounted in
+       openPortal() (initBurst), unmounts itself the instant progress
+       completes (see the p>=1 branch in loop() below). */
+    function burstParticleColor(pt) {
+      // White → white-gold → sapphire → emerald, weighted toward the warm end
+      if (pt.hue < 0.55) return mix(WHITE, PAL.gold, 0.35 + pt.hue * 0.7);
+      if (pt.hue < 0.78) return PAL.axon;   // sapphire blue
+      return PAL.node;                      // emerald green
+    }
+
+    function initBurst() {
+      burstActive = true;
+      if (reducedMotion) { burstParticles = []; return; }
+      burstParticles = [];
+      for (let i = 0; i < CFG.burstParticles; i++) {
+        burstParticles.push({
+          nx: Math.random(), ny: Math.random(), // normalized — rescaled to the live box each frame
+          jitterPhase: Math.random() * Math.PI * 2,
+          jitterSpeed: 0.6 + Math.random() * 0.8,
+          size: 1 + Math.random() * 1.8,
+          hue: Math.random(),
+        });
+      }
+    }
+
+    // Perimeter sampling for the current live frame shape (fw/fh/fr) —
+    // degenerates to circle sampling when fw===fh===2*fr, same as
+    // roundedRectPath, so particles snap onto whatever the real frame
+    // (drawn by drawRingFrame, untouched) looks like at this exact instant.
+    function frameSegments(w, h, r) {
+      r = Math.max(0, Math.min(r, w / 2, h / 2));
+      const sw = Math.max(0, w - 2 * r), sh = Math.max(0, h - 2 * r);
+      const cornerLen = (Math.PI * r) / 2;
+      return { r, sw, sh, cornerLen, total: sw * 2 + sh * 2 + cornerLen * 4 };
+    }
+    function pointOnFrame(type, d, x0, y0, w, h, r) {
+      switch (type) {
+        case 'top':    return { x: x0 + r + d, y: y0 };
+        case 'right':  return { x: x0 + w, y: y0 + r + d };
+        case 'bottom': return { x: x0 + w - r - d, y: y0 + h };
+        case 'left':   return { x: x0, y: y0 + h - r - d };
+        case 'cornerTR': { const a = -Math.PI / 2 + (r > 0 ? d / r : 0); return { x: x0 + w - r + Math.cos(a) * r, y: y0 + r + Math.sin(a) * r }; }
+        case 'cornerBR': { const a = 0 + (r > 0 ? d / r : 0);            return { x: x0 + w - r + Math.cos(a) * r, y: y0 + h - r + Math.sin(a) * r }; }
+        case 'cornerBL': { const a = Math.PI / 2 + (r > 0 ? d / r : 0);  return { x: x0 + r + Math.cos(a) * r, y: y0 + h - r + Math.sin(a) * r }; }
+        default:         { const a = Math.PI + (r > 0 ? d / r : 0);      return { x: x0 + r + Math.cos(a) * r, y: y0 + r + Math.sin(a) * r }; }
+      }
+    }
+    function samplePerimeterPoints(w, h, r, n) {
+      const { r: rr, sw, sh, cornerLen, total } = frameSegments(w, h, r);
+      const x0 = rCx - w / 2, y0 = rCy - h / 2;
+      const segs = [
+        { len: sw, type: 'top' }, { len: cornerLen, type: 'cornerTR' },
+        { len: sh, type: 'right' }, { len: cornerLen, type: 'cornerBR' },
+        { len: sw, type: 'bottom' }, { len: cornerLen, type: 'cornerBL' },
+        { len: sh, type: 'left' }, { len: cornerLen, type: 'cornerTL' },
+      ];
+      const pts = [];
+      for (let i = 0; i < n; i++) {
+        let d = (i / n) * (total || 1);
+        for (const seg of segs) {
+          if (d <= seg.len || seg === segs[segs.length - 1]) { pts.push(pointOnFrame(seg.type, Math.min(d, seg.len), x0, y0, w, h, rr)); break; }
+          d -= seg.len;
+        }
+      }
+      return pts;
+    }
+
+    function drawGlowRing(r, bandWidth, color, alpha) {
+      if (alpha <= 0.002 || r <= 0) return;
+      const grad = bCtx.createRadialGradient(rCx, rCy, Math.max(0, r - bandWidth), rCx, rCy, r + bandWidth);
+      grad.addColorStop(0, rgba(color, 0));
+      grad.addColorStop(0.5, rgba(color, alpha));
+      grad.addColorStop(1, rgba(color, 0));
+      bCtx.fillStyle = grad;
+      bCtx.beginPath();
+      bCtx.arc(rCx, rCy, r + bandWidth, 0, Math.PI * 2);
+      bCtx.fill();
+    }
+
+    // A brief specular glint traveling once around the newly-solidified
+    // frame — cheap approximation via a moving cluster of bright dots
+    // rather than a true shader streak, kept consistent with how every
+    // other embellishment here (motes, shockwave) is drawn.
+    function drawSpecularStreak(fw, fh, fr, sp) {
+      const n = 90;
+      const pts = samplePerimeterPoints(fw, fh, fr, n);
+      const center = Math.floor(sp * n);
+      const span = 9;
+      for (let k = -span; k <= span; k++) {
+        const idx = ((center + k) % n + n) % n;
+        const a = Math.max(0, 1 - Math.abs(k) / span) * 0.85;
+        if (a <= 0.01) continue;
+        const pt = pts[idx];
+        bCtx.fillStyle = rgba(mix(WHITE, PAL.gold, 0.25), a);
+        bCtx.beginPath();
+        bCtx.arc(pt.x, pt.y, 2.2, 0, Math.PI * 2);
+        bCtx.fill();
+      }
+    }
+
+    function drawBurstOverlay(p, t) {
+      bCtx.clearRect(0, 0, rW, rH);
+      if (p === null || !burstActive) return;
+
+      if (reducedMotion) {
+        // Graceful degradation: a clean opacity fade, no particles.
+        const a = Math.sin(Math.min(1, p) * Math.PI) * 0.35;
+        if (a > 0.01) {
+          const g = bCtx.createRadialGradient(rCx, rCy, 0, rCx, rCy, Math.max(rW, rH) * 0.6);
+          g.addColorStop(0, rgba(mix(WHITE, PAL.gold, 0.3), a));
+          g.addColorStop(1, rgba(PAL.gold, 0));
+          bCtx.fillStyle = g;
+          bCtx.fillRect(0, 0, rW, rH);
+        }
+        return;
+      }
+
+      // Mirrors drawRingFrame's own fw/fh/fr interpolation exactly, so
+      // phase-3 particles snap onto the same live shape the real frame is
+      // drawing — intentionally duplicated rather than refactored out, to
+      // keep drawRingFrame's existing signature/internals untouched.
+      const inset = 3;
+      const targetW = Math.max(1, rW - inset * 2), targetH = Math.max(1, rH - inset * 2), targetR = 18;
+      const fw = closedRingR * 2 + (targetW - closedRingR * 2) * openness;
+      const fh = closedRingR * 2 + (targetH - closedRingR * 2) * openness;
+      const fr = closedRingR + (targetR - closedRingR) * openness;
+
+      const P1 = CFG.burstPhase1End, P2 = CFG.burstPhase2End;
+
+      if (p < P1) {
+        // Phase 1 — Spark & Noise: a fine shimmering point-cloud across the
+        // box, noise-jittered, signalling energy building up before the burst.
+        const ph = p / P1;
+        const alpha = Math.sin(ph * Math.PI) * 0.9;
+        burstParticles.forEach(pt => {
+          const jx = Math.sin(t * 6 * pt.jitterSpeed + pt.jitterPhase) * 2.5;
+          const jy = Math.cos(t * 5.4 * pt.jitterSpeed + pt.jitterPhase) * 2.5;
+          const col = burstParticleColor(pt);
+          bCtx.fillStyle = rgba(col, alpha * 0.55);
+          bCtx.beginPath();
+          bCtx.arc(pt.nx * rW + jx, pt.ny * rH + jy, pt.size, 0, Math.PI * 2);
+          bCtx.fill();
+        });
+      } else if (p < P2) {
+        // Phase 2 — Luminous Burst: white-gold light expands from the
+        // center with a sapphire/emerald dispersion fringe trailing the front.
+        const ph = (p - P1) / (P2 - P1);
+        const maxR = Math.max(rW, rH) * 0.75;
+        const r = maxR * ease(ph);
+        const bandW = maxR * 0.22 * (1 - ph * 0.4);
+        drawGlowRing(r * 1.06, bandW, PAL.node, (1 - ph) * 0.5);
+        drawGlowRing(r * 1.0, bandW, PAL.axon, (1 - ph) * 0.6);
+        drawGlowRing(r * 0.92, bandW * 1.3, mix(WHITE, PAL.gold, 0.3), (1 - ph) * 0.9 + 0.1);
+        const coreA = Math.sin(ph * Math.PI) * 0.6;
+        if (coreA > 0.01) {
+          const core = bCtx.createRadialGradient(rCx, rCy, 0, rCx, rCy, maxR * 0.5);
+          core.addColorStop(0, rgba(mix(WHITE, PAL.gold, 0.2), coreA));
+          core.addColorStop(1, rgba(PAL.gold, 0));
+          bCtx.fillStyle = core;
+          bCtx.fillRect(0, 0, rW, rH);
+        }
+        const pAlpha = Math.max(0, 1 - ph * 1.4) * 0.45;
+        if (pAlpha > 0.01) burstParticles.forEach(pt => {
+          bCtx.fillStyle = rgba(burstParticleColor(pt), pAlpha);
+          bCtx.beginPath();
+          bCtx.arc(pt.nx * rW, pt.ny * rH, pt.size, 0, Math.PI * 2);
+          bCtx.fill();
+        });
+      } else {
+        // Phase 3 — Particle Snap & Frame Solidification: particles pull
+        // inward onto the frame's live outline and cool to gold, capped
+        // with a specular streak once they've landed.
+        const ph = (p - P2) / (1 - P2);
+        const snapEase = ease(Math.min(1, ph * 1.3));
+        const framePts = samplePerimeterPoints(fw, fh, fr, burstParticles.length);
+        burstParticles.forEach((pt, i) => {
+          const sx = pt.nx * rW, sy = pt.ny * rH;
+          const target = framePts[i];
+          const x = sx + (target.x - sx) * snapEase;
+          const y = sy + (target.y - sy) * snapEase;
+          const col = mix(burstParticleColor(pt), PAL.gold, snapEase);
+          const alpha = (1 - ph) * 0.65 + 0.15;
+          bCtx.fillStyle = rgba(col, alpha);
+          bCtx.beginPath();
+          bCtx.arc(x, y, pt.size * (1 + snapEase * 0.4), 0, Math.PI * 2);
+          bCtx.fill();
+        });
+        if (ph > 0.55) drawSpecularStreak(fw, fh, fr, (ph - 0.55) / 0.45);
+      }
+    }
+
+    /* ── neural network — forked from buildNeural/activateNear above,
+       box-scoped instead of full-hero, with a drain-to-center state ── */
+    function buildNetwork() {
+      nodes = [];
+      connections = [];
+      const n = CFG.nodeCount(window.innerWidth);
+      for (let i = 0; i < n; i++) {
+        nodes.push({
+          x: Math.random() * cW, y: Math.random() * cH,
+          px: 0, py: 0,
+          vx: (Math.random() - 0.5) * 0.18, vy: (Math.random() - 0.5) * 0.18,
+          r: 1.4 + Math.random() * 2.2,
+          charge: 0, phase: Math.random() * Math.PI * 2,
+          drained: false,
+        });
+      }
+      nodes.forEach(nd => { nd.px = nd.x; nd.py = nd.y; });
+      const thresh = Math.min(cW, cH) * CFG.connectThresh;
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const dx = nodes[i].x - nodes[j].x, dy = nodes[i].y - nodes[j].y;
+          const d = Math.sqrt(dx*dx + dy*dy);
+          if (d < thresh) connections.push({a: i, b: j, d, pulse: 0});
+        }
+      }
+    }
+
+    function activateNear(x, y, str) {
+      const radius = Math.min(cW, cH) * CFG.activateRadius;
+      nodes.forEach(nd => {
+        if (nd.drained) return;
+        const dx = nd.x - x, dy = nd.y - y;
+        const d = Math.sqrt(dx*dx + dy*dy);
+        if (d < radius) nd.charge = Math.min(1, nd.charge + (1 - d/radius) * str);
+      });
+      connections.forEach(c => {
+        const na = nodes[c.a], nb = nodes[c.b];
+        if (!na || !nb) return;
+        if (na.charge > 0.3 || nb.charge > 0.3)
+          c.pulse = Math.max(c.pulse, (na.charge + nb.charge) * 0.5 * str);
+      });
+    }
+
+    function updateNetwork(dt) {
+      nodes.forEach(nd => {
+        if (nd.drained) return;
+        nd.px = nd.x; nd.py = nd.y;
+
+        if (draining) {
+          const dx = cW/2 - nd.x, dy = cH/2 - nd.y;
+          const dist = Math.sqrt(dx*dx + dy*dy);
+          if (dist < 6) { nd.drained = true; return; }
+          const pull = 3.2 * (dt / 16);
+          const tang = pull * 0.5;
+          const nx = dx/dist, ny = dy/dist;
+          nd.vx = nd.vx * 0.86 + (nx * pull + (-ny) * tang);
+          nd.vy = nd.vy * 0.86 + (ny * pull + nx * tang);
+          nd.x += nd.vx; nd.y += nd.vy;
+          nd.r *= 0.992;
+          nd.charge = Math.min(1, nd.charge + 0.025);
+        } else {
+          nd.x += nd.vx * (dt/16);
+          nd.y += nd.vy * (dt/16);
+          if (nd.x < 0 || nd.x > cW) nd.vx *= -1;
+          if (nd.y < 0 || nd.y > cH) nd.vy *= -1;
+          nd.x = Math.max(0, Math.min(cW, nd.x));
+          nd.y = Math.max(0, Math.min(cH, nd.y));
+        }
+        nd.charge *= 0.985;
+        nd.phase += 0.003 * (dt/16);
+      });
+      connections.forEach(c => { c.pulse *= 0.97; });
+    }
+
+    /* ── chimer canvas: floor plane + network + bloom + vignette ── */
+    function drawFloorPlane(alpha) {
+      if (alpha <= 0) return;
+      const horizonY = cH * 0.62;
+      cCtx.save();
+      cCtx.globalAlpha = alpha;
+
+      const vpX = cW * 0.5, vpY = horizonY - cH * 0.25;
+      const cols = 9;
+      cCtx.strokeStyle = rgba(mix(PAL.axon, PAL.gold, 0.3), 0.14);
+      cCtx.lineWidth = 0.6;
+      for (let i = 0; i <= cols; i++) {
+        const baseX = (i / cols) * cW * 1.4 - cW * 0.2;
+        cCtx.beginPath();
+        cCtx.moveTo(baseX, cH);
+        cCtx.lineTo(vpX + (baseX - vpX) * 0.15, horizonY);
+        cCtx.stroke();
+      }
+      const rows = 6;
+      for (let j = 0; j < rows; j++) {
+        const tt = j / rows;
+        const y = horizonY + Math.pow(tt, 1.8) * (cH - horizonY);
+        const spread = 0.15 + tt * 0.85;
+        cCtx.beginPath();
+        cCtx.moveTo(vpX - cW * 0.7 * spread, y);
+        cCtx.lineTo(vpX + cW * 0.7 * spread, y);
+        cCtx.globalAlpha = alpha * (0.05 + tt * 0.16);
+        cCtx.stroke();
+      }
+      cCtx.restore();
+    }
+
+    function drawChimer(t, alpha) {
+      if (alpha <= 0.002) { cCtx.clearRect(0, 0, cW, cH); return; }
+      const breathe = 0.5 + 0.5 * Math.sin(t / 5.5 * Math.PI * 2 - Math.PI / 2);
+
+      cCtx.save();
+      cCtx.globalAlpha = alpha;
+      cCtx.fillStyle = rgba(PAL.bg, 1);
+      cCtx.fillRect(0, 0, cW, cH);
+      cCtx.restore();
+
+      drawFloorPlane(alpha * 0.8);
+
+      const thresh = Math.min(cW, cH) * CFG.connectThresh;
+      cCtx.save();
+      cCtx.globalAlpha = alpha;
+
+      if (draining) {
+        nodes.forEach(nd => {
+          if (nd.drained || nd.charge < 0.08) return;
+          cCtx.strokeStyle = rgba(PAL.gold, nd.charge * 0.35);
+          cCtx.lineWidth = 1;
+          cCtx.beginPath();
+          cCtx.moveTo(nd.px, nd.py);
+          cCtx.lineTo(nd.x, nd.y);
+          cCtx.stroke();
+        });
+      }
+
+      connections.forEach(c => {
+        const na = nodes[c.a], nb = nodes[c.b];
+        if (!na || !nb || na.drained || nb.drained) return;
+        const dx = nb.x - na.x, dy = nb.y - na.y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist > thresh * 1.6) return;
+        const avg = (na.charge + nb.charge) * 0.5;
+        const prox = Math.max(0, 1 - dist / (thresh * 1.6));
+        const a = 0.07 + avg * 0.35 + c.pulse * 0.3;
+        const col = avg > 0.15 ? mix(PAL.axon, PAL.gold, Math.min(1, avg + c.pulse)) : PAL.silver;
+
+        cCtx.strokeStyle = rgba(col, a * prox);
+        cCtx.lineWidth = 0.6 + avg * 1.4 + c.pulse * 1.2;
+        cCtx.beginPath(); cCtx.moveTo(na.x, na.y); cCtx.lineTo(nb.x, nb.y); cCtx.stroke();
+
+        if (avg > 0.2 || c.pulse > 0.2) {
+          cCtx.strokeStyle = rgba(PAL.gold, (avg + c.pulse) * 0.1);
+          cCtx.lineWidth = (0.6 + avg * 1.4) * 4.5;
+          cCtx.beginPath(); cCtx.moveTo(na.x, na.y); cCtx.lineTo(nb.x, nb.y); cCtx.stroke();
+        }
+      });
+
+      nodes.forEach(nd => {
+        if (nd.drained) return;
+        const p = 0.5 + 0.5 * Math.sin(nd.phase);
+        const size = nd.r * (1 + breathe * 0.12) * (1 + nd.charge * 1.6) * (1 + p * 0.08);
+        const col = nd.charge > 0.15
+          ? mix(PAL.node, PAL.gold, Math.min(1, nd.charge * 1.4))
+          : mix(PAL.silver, PAL.node, 0.4);
+        const a = 0.4 + nd.charge * 0.5;
+
+        if (nd.charge > 0.1) {
+          const g = cCtx.createRadialGradient(nd.x, nd.y, 0, nd.x, nd.y, size * 5);
+          g.addColorStop(0, rgba(PAL.gold, nd.charge * 0.3));
+          g.addColorStop(1, rgba(PAL.gold, 0));
+          cCtx.fillStyle = g;
+          cCtx.beginPath(); cCtx.arc(nd.x, nd.y, size * 5, 0, Math.PI * 2); cCtx.fill();
+        }
+        cCtx.fillStyle = rgba(col, a);
+        cCtx.beginPath(); cCtx.arc(nd.x, nd.y, size, 0, Math.PI * 2); cCtx.fill();
+      });
+
+      const ag = cCtx.createRadialGradient(cW*0.72, cH*0.3, 0, cW*0.72, cH*0.3, Math.min(cW,cH)*0.6);
+      ag.addColorStop(0, rgba(PAL.gold, 0.04 + breathe * 0.03));
+      ag.addColorStop(1, rgba(PAL.gold, 0));
+      cCtx.fillStyle = ag;
+      cCtx.fillRect(0, 0, cW, cH);
+
+      // Edge vignette — depth falloff, "beyond the screen" feel
+      const vg = cCtx.createRadialGradient(cW/2, cH/2, Math.min(cW,cH)*0.25, cW/2, cH/2, Math.max(cW,cH)*0.72);
+      vg.addColorStop(0, 'rgba(0,0,0,0)');
+      vg.addColorStop(1, 'rgba(0,0,0,0.4)');
+      cCtx.fillStyle = vg;
+      cCtx.fillRect(0, 0, cW, cH);
+
+      cCtx.restore();
+
+      // Bloom flash — fires once when fully open
+      if (flashT >= 0) {
+        const dur = 0.55;
+        const p = flashT / dur;
+        if (p <= 1) {
+          cCtx.save();
+          cCtx.globalAlpha = alpha * (1 - p) * 0.85;
+          const fg = cCtx.createRadialGradient(cW/2, cH*0.4, 0, cW/2, cH*0.4, Math.max(cW,cH) * (0.15 + p * 0.55));
+          fg.addColorStop(0, 'rgba(255,248,225,0.9)');
+          fg.addColorStop(0.4, rgba(PAL.gold, 0.35));
+          fg.addColorStop(1, rgba(PAL.gold, 0));
+          cCtx.fillStyle = fg;
+          cCtx.fillRect(0, 0, cW, cH);
+          cCtx.restore();
+        } else {
+          flashT = -1;
+        }
+      }
+    }
+
+    /* ── pointer interaction on the chimer — reuses the shared playCelticTone,
+       retargeted to the canvas's own local coordinate space ── */
+    let chimerTouchActive = false;
+
+    function toChimerCoords(e) {
+      const rect = chimerCanvas.getBoundingClientRect();
+      const src = e.touches ? e.touches[0] : e;
+      return {
+        x: (src.clientX - rect.left) * (cW / rect.width),
+        y: (src.clientY - rect.top) * (cH / rect.height),
+      };
+    }
+
+    let lastChimerTone = 0;
+    function maybeChimerTone(x, y) {
+      if (!soundEnabled) return;
+      const now = Date.now();
+      if (now - lastChimerTone < 120) return;
+      lastChimerTone = now;
+      playCelticTone(x, y, cW, cH);
+    }
+
+    function chimerDown(e) {
+      if (state !== 'open') return;
+      chimerTouchActive = true;
+      const {x, y} = toChimerCoords(e);
+      activateNear(x, y, 1.0);
+      maybeChimerTone(x, y);
+    }
+    function chimerMove(e) {
+      if (!chimerTouchActive || state !== 'open') return;
+      const {x, y} = toChimerCoords(e);
+      activateNear(x, y, 0.6);
+      maybeChimerTone(x, y);
+    }
+    function chimerUp() { chimerTouchActive = false; }
+
+    chimerCanvas.addEventListener('touchstart', chimerDown, {passive: true});
+    chimerCanvas.addEventListener('touchmove', chimerMove, {passive: true});
+    chimerCanvas.addEventListener('touchend', chimerUp);
+    chimerCanvas.addEventListener('mousedown', chimerDown);
+    chimerCanvas.addEventListener('mousemove', e => { if (e.buttons) chimerMove(e); });
+    chimerCanvas.addEventListener('mouseup', chimerUp);
+    chimerCanvas.addEventListener('mouseleave', chimerUp);
+
+    /* ── open / close ── */
+    function openPortal() {
+      if (state !== 'closed') return;
+      state = 'opening';
+      animStart = performance.now();
+      playOpenChime();
+      initBurst();
+
+      portalBox.dataset.state = 'opening';
+      if (!reducedMotion) {
+        portalBox.classList.remove('swing-close');
+        portalBox.classList.add('swing-open');
+        portalBox.addEventListener('animationend', function onEnd() {
+          portalBox.classList.remove('swing-open');
+          portalBox.removeEventListener('animationend', onEnd);
+        });
+      }
+
+      sizeChimerCanvas();
+      buildNetwork();
+      draining = false;
+
+      setTimeout(() => { flashT = 0; }, CFG.openMs * 0.55);
+    }
+
+    function closePortal() {
+      if (state !== 'open') return;
+      state = 'draining';
+      draining = true;
+      portalBox.dataset.state = 'draining';
+      playCloseChime();
+
+      setTimeout(() => {
+        state = 'closing';
+        animStart = performance.now();
+        draining = false;
+        portalBox.dataset.state = 'closing';
+        if (!reducedMotion) {
+          portalBox.classList.remove('swing-open');
+          portalBox.classList.add('swing-close');
+          portalBox.addEventListener('animationend', function onEnd() {
+            portalBox.classList.remove('swing-close');
+            portalBox.removeEventListener('animationend', onEnd);
+          });
+        }
+      }, CFG.drainMs);
+    }
+
+    /* ── main loop ── */
+    let lastTs = 0;
+
+    function loop(ts) {
+      const t = ts / 1000;
+      const dt = Math.min(50, ts - lastTs || 16);
+      lastTs = ts;
+
+      let openP = null;
+      if (state === 'opening') {
+        const p = Math.min((ts - animStart) / CFG.openMs, 1);
+        openP = p;
+        openness = ease(p);
+        if (p >= 1) {
+          state = 'open';
+          openness = 1;
+          portalBox.dataset.state = 'open';
+          closeBtn.tabIndex = 0;
+          if (document.activeElement === portalBox) closeBtn.focus();
+          // Chimer State fully active — unmount the burst overlay.
+          burstActive = false;
+          burstParticles = [];
+        }
+      }
+      if (state === 'closing') {
+        const p = Math.min((ts - animStart) / CFG.closeMs, 1);
+        openness = 1 - ease(p);
+        if (p >= 1) {
+          state = 'closed';
+          openness = 0;
+          portalBox.dataset.state = 'closed';
+          closeBtn.tabIndex = -1;
+          shockT = 0;
+          if (document.activeElement === closeBtn || portalBox.contains(document.activeElement)) portalBox.focus();
+        }
+      }
+
+      if (flashT >= 0) flashT += dt / 1000;
+      if (shockT >= 0) shockT += dt / 1000;
+
+      drawRingFrame(t);
+      drawBurstOverlay(openP, t);
+
+      const chimerAlpha = state === 'closed' ? 0
+        : state === 'opening' ? clamp01((openness - 0.15) / 0.85)
+        : state === 'closing' ? clamp01(openness / 0.5)
+        : 1;
+
+      if (state !== 'closed') {
+        updateNetwork(dt);
+        drawChimer(t, chimerAlpha);
+      } else if (chimerCanvas.width > 0) {
+        cCtx.clearRect(0, 0, cW, cH);
+      }
+
+      requestAnimationFrame(loop);
+    }
+
+    /* ── events ── */
+    portalBox.addEventListener('click', () => {
+      if (state === 'closed') openPortal();
+    });
+    portalBox.addEventListener('keydown', e => {
+      if ((e.key === 'Enter' || e.key === ' ') && state === 'closed') {
+        e.preventDefault(); openPortal();
+      }
+    });
+    closeBtn.addEventListener('click', e => { e.stopPropagation(); closePortal(); });
+
+    document.addEventListener('click', e => {
+      if ((state === 'open' || state === 'opening') && !portalBox.contains(e.target)) closePortal();
+    });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && state === 'open') closePortal(); });
+
+    const io = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting && state === 'open') closePortal();
+    }, { threshold: 0.35 });
+    io.observe(portalBox);
+
+    // Pointer tilt — desktop hover only, dimensional "diorama" cue
+    const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    if (canHover) {
+      const stage = document.querySelector('.portal-column');
+      stage.addEventListener('pointermove', e => {
+        if (state !== 'closed') return;
+        const rect = portalBox.getBoundingClientRect();
+        const px = (e.clientX - rect.left) / rect.width - 0.5;
+        const py = (e.clientY - rect.top) / rect.height - 0.5;
+        portalBox.style.setProperty('--tiltX', (4 + py * -7).toFixed(2) + 'deg');
+        portalBox.style.setProperty('--tiltY', (px * 9).toFixed(2) + 'deg');
+      });
+      stage.addEventListener('pointerleave', () => {
+        portalBox.style.setProperty('--tiltX', '4deg');
+        portalBox.style.setProperty('--tiltY', '0deg');
+      });
+    }
+
+    /* ── init ── */
+    sizeRingCanvas();
+    window.addEventListener('resize', () => {
+      if (state === 'closed') sizeRingCanvas();
+    });
+    requestAnimationFrame(loop);
+  })();
 </script>
 
 <script type="module">

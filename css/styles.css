@@ -97,8 +97,28 @@ nav .content-wrap { display: flex; justify-content: space-between; align-items: 
 }
 @media (min-width: 900px) { .hero { padding: 12rem var(--space-64) var(--space-96); } } /* 12rem: one-off hero top padding, no token */
 
-.hero-content { position: relative; z-index: 2; max-width: 680px; pointer-events: none; }
-.hero-content > * { pointer-events: auto; }
+.hero-grid {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-48);
+}
+.hero-grid .hero-content { order: 2; width: 100%; }
+.hero-grid .portal-column { order: 1; }
+
+@media (min-width: 900px) {
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: var(--space-64);
+  }
+  .hero-grid .hero-content { order: 1; }
+  .hero-grid .portal-column { order: 2; justify-self: stretch; }
+}
+
+.hero-content { max-width: 680px; }
 
 .hero h1 {
   font-family: var(--font-head); font-weight: var(--font-weight-light);
@@ -108,21 +128,153 @@ nav .content-wrap { display: flex; justify-content: space-between; align-items: 
 }
 .hero h1 .accent-green { color: var(--colour-accent-green); }
 
-.hero-neural {
-  position: absolute; inset: 0; z-index: 0;
-  pointer-events: auto; user-select: none; -webkit-user-select: none;
-  -webkit-touch-callout: none; touch-action: none;
-}
-.hero-neural canvas { display: block; width: 100%; height: 100%; user-select: none; -webkit-user-select: none; }
-.hero-neural::after {
-  content: ''; position: absolute; inset: 0;
-  background: radial-gradient(ellipse 65% 80% at 15% 50%, color-mix(in srgb, var(--colour-background) 72%, transparent) 0%, transparent 60%),
-              linear-gradient(to bottom, transparent 55%, var(--colour-background) 100%);
-  pointer-events: none;
-}
-
 .hero-sub { font-size: var(--font-size-md); line-height: 1.55; /* no token match */ max-width: 44ch; color: var(--colour-text); margin-bottom: var(--space-40); }
 .hero-sub strong { color: var(--colour-text); font-weight: var(--font-weight-regular); }
+
+/* ─── Portal column: the hero "o" module ───
+   Closed: idle golden "o". Open: the same gold ring deforms in place
+   into a rounded-rect frame around the contained Chimer interaction.
+   See ringCanvas/chimerCanvas script for the circle→rect morph. */
+.portal-column {
+  display: flex;
+  justify-content: center;
+  animation: fadeUp 0.9s ease 0.05s forwards;
+  opacity: 0;
+}
+
+/* A much longer perspective distance reads closer to Monument Valley's
+   orthographic camera — flat, clean planes instead of a fisheye dolly —
+   while still leaving enough depth cue for the hinge-fold to be legible. */
+.portal-perspective { perspective: 2600px; }
+
+.portal-box {
+  --tiltX: 4deg;
+  --tiltY: 0deg;
+  position: relative;
+  width: clamp(220px, 26vw, 300px);
+  aspect-ratio: 1;
+  border-radius: 20px;
+  cursor: pointer;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  transform: rotateX(var(--tiltX)) rotateY(var(--tiltY));
+  transform-origin: 50% 100%; /* hinges from its own base, like a lid */
+  transform-style: preserve-3d;
+  transition:
+    width 0.95s cubic-bezier(0.22,1,0.36,1),
+    aspect-ratio 0.95s cubic-bezier(0.22,1,0.36,1),
+    border-radius 0.95s cubic-bezier(0.22,1,0.36,1),
+    transform 0.4s ease-out;
+  overflow: hidden;
+}
+.portal-box[data-state="open"],
+.portal-box[data-state="opening"],
+.portal-box[data-state="draining"] {
+  width: clamp(300px, 50vw, 680px);
+  aspect-ratio: 4 / 3;
+  border-radius: 18px;
+}
+
+.portal-box.swing-open  { animation: portalSwingOpen 0.95s cubic-bezier(0.22,1,0.36,1); }
+.portal-box.swing-close { animation: portalSwingClose 1.05s cubic-bezier(0.6,0,0.7,0.05); }
+
+/* The hinge-fold: the box tips back on its base like a lid opening, well
+   past its resting tilt, then settles — the gold frame (which tracks the
+   box's real on-screen size every frame) foreshortens through the swing
+   for free, exactly like a physical plane rotating in space. */
+@keyframes portalSwingOpen {
+  0%   { transform: rotateX(4deg)   rotateY(0deg); }
+  32%  { transform: rotateX(-54deg) rotateY(-9deg) translateZ(24px); }
+  64%  { transform: rotateX(14deg)  rotateY(5deg); }
+  100% { transform: rotateX(4deg)   rotateY(0deg); }
+}
+@keyframes portalSwingClose {
+  0%   { transform: rotateX(4deg)   rotateY(0deg); }
+  40%  { transform: rotateX(-46deg) rotateY(-6deg) translateZ(18px); }
+  100% { transform: rotateX(4deg)   rotateY(0deg); }
+}
+
+.portal-box::after {
+  content: '';
+  position: absolute;
+  left: 8%; right: 8%; bottom: -18px;
+  height: 34px;
+  background: radial-gradient(ellipse, var(--colour-accent-gold-soft) 0%, transparent 72%);
+  filter: blur(11px);
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+  z-index: -1;
+}
+.portal-box[data-state="open"]::after,
+.portal-box[data-state="draining"]::after { opacity: 0.55; }
+.portal-box.swing-open::after, .portal-box.swing-close::after { opacity: 0.75; }
+
+/* Crease shadow at the hinge base — a small painted-shadow trick, the same
+   kind Monument Valley leans on to sell a fold that isn't really there. */
+.portal-box::before {
+  content: '';
+  position: absolute;
+  left: 4%; right: 4%; bottom: 0; height: 42%;
+  background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+  z-index: 3;
+}
+.portal-box.swing-open::before, .portal-box.swing-close::before { opacity: 1; }
+
+#ringCanvas, #chimerCanvas, #burstCanvas {
+  position: absolute; inset: 0; width: 100%; height: 100%; display: block;
+}
+#chimerCanvas { z-index: 1; }
+/* Purely decorative (frame/iris/motes) — must not swallow pointer events,
+   or the chimer canvas beneath it never sees drags, killing both the
+   node-activation visuals and the chime audio they trigger. */
+#ringCanvas   { z-index: 2; pointer-events: none; }
+/* O→Chimer transition overlay only (particle burst + frame solidification).
+   Sits above the gold frame so the burst reads as forming it, then clears
+   itself once open — inert otherwise. Own compositor layer so the burst
+   doesn't force a repaint of the frame/network canvases beneath it. */
+#burstCanvas  { z-index: 4; pointer-events: none; will-change: opacity; transform: translateZ(0); }
+
+.close-btn {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%) scale(1);
+  z-index: 10;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: var(--colour-accent-gold);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity 0.4s ease 0.55s, transform 0.4s ease-out, box-shadow 0.4s ease;
+  opacity: 0;
+  box-shadow: 0 0 0 0 var(--colour-accent-gold);
+  pointer-events: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.portal-box[data-state="open"] .close-btn {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(-50%) scale(1);
+  box-shadow: 0 0 0 0 var(--colour-accent-gold);
+}
+/* Close-out beat: rather than just fading, the button glows and shrinks
+   into the frame it's part of — reads as merging back into the gold ring
+   instead of a UI element simply vanishing. */
+.portal-box[data-state="draining"] .close-btn,
+.portal-box[data-state="closing"] .close-btn {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-50%) scale(0.25);
+  box-shadow: 0 0 22px 8px var(--colour-accent-gold);
+  transition: opacity 0.6s ease 0.1s, transform 0.6s cubic-bezier(0.6,0,0.7,0.05), box-shadow 0.35s ease;
+}
+.close-btn:hover { transform: translateY(-50%) scale(1.08); }
+.close-btn:focus-visible { outline: 2px solid var(--colour-accent-primary); outline-offset: 3px; }
+.close-btn svg { width: 14px; height: 14px; stroke: var(--colour-background); }
 
 .section { padding: var(--space-96) var(--space-32); border-top: 0.5px solid var(--colour-border); transition: border-color 0.6s ease; }
 @media (min-width: 900px) { .section { padding: var(--space-128) var(--space-64); } }
