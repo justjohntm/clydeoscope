@@ -239,9 +239,10 @@ nav .content-wrap { display: flex; justify-content: space-between; align-items: 
 
 .close-btn {
   position: absolute;
-  left: 14px;
-  top: 50%;
-  transform: translateY(-50%) scale(1);
+  right: 14px;
+  left: auto;
+  top: 14px;
+  transform: scale(1);
   z-index: 10;
   width: 36px; height: 36px;
   border-radius: 50%;
@@ -258,7 +259,7 @@ nav .content-wrap { display: flex; justify-content: space-between; align-items: 
 .portal-box[data-state="open"] .close-btn {
   opacity: 1;
   pointer-events: auto;
-  transform: translateY(-50%) scale(1);
+  transform: scale(1);
   box-shadow: 0 0 0 0 var(--colour-accent-gold);
 }
 /* Close-out beat: rather than just fading, the button glows and shrinks
@@ -268,11 +269,11 @@ nav .content-wrap { display: flex; justify-content: space-between; align-items: 
 .portal-box[data-state="closing"] .close-btn {
   opacity: 0;
   pointer-events: none;
-  transform: translateY(-50%) scale(0.25);
+  transform: scale(0.25);
   box-shadow: 0 0 22px 8px var(--colour-accent-gold);
   transition: opacity 0.6s ease 0.1s, transform 0.6s cubic-bezier(0.6,0,0.7,0.05), box-shadow 0.35s ease;
 }
-.close-btn:hover { transform: translateY(-50%) scale(1.08); }
+.close-btn:hover { transform: scale(1.08); }
 .close-btn:focus-visible { outline: 2px solid var(--colour-accent-primary); outline-offset: 3px; }
 .close-btn svg { width: 14px; height: 14px; stroke: var(--colour-background); }
 
@@ -288,7 +289,7 @@ nav .content-wrap { display: flex; justify-content: space-between; align-items: 
 .concept-item h3 { font-family: var(--font-head); font-size: 1.3rem; /* no token match */ font-weight: var(--font-weight-regular); margin-bottom: var(--space-16); letter-spacing: -0.01em; /* no token match */ }
 .concept-item p { font-size: 0.95rem; /* no token match */ line-height: 1.6; /* no token match */ color: var(--colour-text); }
 
-.founder-section { padding: var(--space-96) var(--space-32); background: var(--colour-surface); color: var(--colour-text); border-top: 0.5px solid var(--colour-border); transition: background 0.6s ease, color 0.6s ease, border-color 0.6s ease; }
+.founder-section { padding: var(--space-96) var(--space-32); background: var(--colour-background); color: var(--colour-text); border-top: 0.5px solid var(--colour-border); transition: background 0.6s ease, color 0.6s ease, border-color 0.6s ease; }
 @media (min-width: 900px) { .founder-section { padding: var(--space-128) var(--space-64); } }
 .founder-section h2 { color: var(--colour-text); }
 .founder-section h2 em { color: var(--colour-accent-gold); }
